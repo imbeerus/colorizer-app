@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Сolorizer</string>
     <string name="file_provider_authority" translatable="false">com.lndmflngs.colorizer.fileprovider</string>
-    <string name="algorithmia_api_key"></string>
     <string name="hint_open_photo">Tap anywhere to open a photo</string>
-    <string name="icon_description">open photo icon</string>
+    <string name="icon_description">Open photo icon</string>
+    <string name="select_picture">Select picture</string>
 </resources>
