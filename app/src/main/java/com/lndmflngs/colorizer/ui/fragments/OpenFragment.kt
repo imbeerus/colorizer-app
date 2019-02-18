@@ -11,22 +11,28 @@ import com.lndmflngs.colorizer.ui.BaseActivity
 
 class OpenFragment : Fragment() {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val rootView = inflater.inflate(R.layout.fragment_open, container, false)
-        rootView.setOnClickListener {
-            val pickPhoto = Intent(Intent.ACTION_GET_CONTENT).apply {
-                addCategory(Intent.CATEGORY_OPENABLE)
-                type = "image/*"
-            }
-            val title = getString(R.string.select_picture)
-            activity?.startActivityForResult(Intent.createChooser(pickPhoto, title), BaseActivity.REQUEST_TAKE_IMAGE)
-        }
-        return rootView
+  override fun onCreateView(
+    inflater: LayoutInflater,
+    container: ViewGroup?,
+    savedInstanceState: Bundle?
+  ): View? {
+    val rootView = inflater.inflate(R.layout.fragment_open, container, false)
+    rootView.setOnClickListener {
+      val pickPhoto = Intent(Intent.ACTION_GET_CONTENT).apply {
+        addCategory(Intent.CATEGORY_OPENABLE)
+        type = "image/*"
+      }
+      val title = getString(R.string.title_select_picture)
+      activity?.startActivityForResult(
+        Intent.createChooser(pickPhoto, title), BaseActivity.REQUEST_TAKE_IMAGE
+      )
     }
+    return rootView
+  }
 
-    companion object {
-        fun newInstance(): OpenFragment {
-            return OpenFragment()
-        }
+  companion object {
+    fun newInstance(): OpenFragment {
+      return OpenFragment()
     }
+  }
 }

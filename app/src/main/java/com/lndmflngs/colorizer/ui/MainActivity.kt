@@ -7,11 +7,11 @@ import com.lndmflngs.colorizer.ui.fragments.OpenFragment
 
 class MainActivity : BaseActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        if (savedInstanceState == null) {
-            replaceFragment(R.id.fragment_container, OpenFragment.newInstance())
-        }
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_main)
+    if (savedInstanceState == null) {
+      replaceFragment(R.id.fragment_container, OpenFragment.newInstance())
     }
+  }
 }
