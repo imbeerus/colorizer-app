@@ -12,5 +12,4 @@
   <string name="description_open">Open photo icon</string>
 
   <string name="file_provider_authority" translatable="false">com.lndmflngs.colorizer.fileprovider</string>
-  <string name="algorithmia_api_key" translatable="false">YOUR_API_KEY</string>
 </resources>
