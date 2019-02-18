@@ -1,6 +1,7 @@
 package com.lndmflngs.colorizer.ui.fragments
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
@@ -13,6 +14,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.lndmflngs.colorizer.R
 import com.lndmflngs.colorizer.algorithmia.AlgoClient
+import com.lndmflngs.colorizer.extensions.pickPhoto
+import com.lndmflngs.colorizer.ui.BaseActivity
 import io.reactivex.Observable
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -26,6 +29,7 @@ import java.io.File
 
 class ResultFragment : Fragment() {
 
+  private lateinit var algoClient: AlgoClient
   private lateinit var selectedImage: ByteArray
   private lateinit var resultImgPath: String
   private lateinit var menu: Menu
@@ -34,6 +38,7 @@ class ResultFragment : Fragment() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
+    algoClient = AlgoClient.getInstance(getString(R.string.algorithmia_api_key))
     // fetch arguments
     selectedImage = arguments?.getByteArray(ARGUMENT_PICKED_IMG)!!
     setHasOptionsMenu(true)
@@ -68,31 +73,62 @@ class ResultFragment : Fragment() {
       resultImgPath = savedInstanceState.getString(BUNDLE_RESULT_IMG_PATH)!!
       showColoredResult()
     } else {
-      getColoredImagePath()
-        .firstOrError()
-        .subscribeOn(Schedulers.single())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(object : SingleObserver<String> {
-          override fun onSuccess(t: String) {
-            resultImgPath = t
-            showColoredResult()
-//          saveResultImage()
-          }
-
-          override fun onSubscribe(d: Disposable) {
-            Log.d(TAG, " onSubscribe : " + d.isDisposed)
-          }
-
-          override fun onError(e: Throwable) {
-            Log.d(TAG, " onError : " + e.message)
-          }
-        })
+      loadData()
     }
   }
 
   override fun onSaveInstanceState(outState: Bundle) {
     outState.putString(BUNDLE_RESULT_IMG_PATH, resultImgPath)
     super.onSaveInstanceState(outState)
+  }
+
+  private fun loadData() {
+    getColoredImagePath()
+      .firstOrError()
+      .subscribeOn(Schedulers.single())
+      .observeOn(AndroidSchedulers.mainThread())
+      .subscribe(object : SingleObserver<String> {
+        override fun onSuccess(t: String) {
+          resultImgPath = t
+          showColoredResult()
+//          saveResultImage()
+        }
+
+        override fun onSubscribe(d: Disposable) {
+          Log.d(TAG, " onSubscribe : " + d.isDisposed)
+        }
+
+        override fun onError(e: Throwable) {
+          Log.d(TAG, " onError : " + e.message)
+        }
+      })
+  }
+
+  fun loadNewData(byteArray: ByteArray) {
+    showResultUI(false) // show load
+    selectedImage = byteArray
+    loadData()
+  }
+
+  private fun showColoredResult() {
+    showResultUI(true)
+    resultImageView.setImageBitmap(BitmapFactory.decodeFile(resultImgPath))
+  }
+
+  private fun showResultUI(isShow: Boolean) {
+    if (isShow) {
+      progressBar.visibility = View.GONE
+      resultView.visibility = View.VISIBLE
+      fab.visibility = View.VISIBLE
+      menu.findItem(R.id.change).isEnabled = true
+      menu.findItem(R.id.share).isEnabled = true
+    } else {
+      progressBar.visibility = View.VISIBLE
+      resultView.visibility = View.GONE
+      fab.visibility = View.GONE
+      menu.findItem(R.id.change).isEnabled = false
+      menu.findItem(R.id.share).isEnabled = false
+    }
   }
 
   private fun getColoredImagePath(): Observable<String> {
@@ -109,10 +145,9 @@ class ResultFragment : Fragment() {
 
   private fun makeAlgorithmiaCall(byteArray: ByteArray): String? {
     try {
-      val client = AlgoClient.getInstance(getString(R.string.algorithmia_api_key))
-      val response = client.uploadImage(byteArray)
+      val response = algoClient.uploadImage(byteArray)
       if (response.isSuccess) {
-        return client.fetchResultImagePath(response)
+        return algoClient.fetchResultImagePath(response)
       } else {
         Log.e(TAG, "Error during get result")
       }
@@ -124,20 +159,19 @@ class ResultFragment : Fragment() {
 
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
     return when (item.itemId) {
+      R.id.change -> {
+        activity?.startActivityForResult(
+          Intent.createChooser(pickPhoto, getString(R.string.title_select_picture)),
+          BaseActivity.REQUEST_TAKE_IMAGE
+        )
+        true
+      }
       R.id.share -> {
         shareResultImgFile()
         true
       }
       else -> super.onOptionsItemSelected(item)
     }
-  }
-
-  private fun showColoredResult() {
-    progressBar.visibility = View.GONE
-    resultView.visibility = View.VISIBLE
-    fab.visibility = View.VISIBLE
-    menu.findItem(R.id.share).isEnabled = true
-    resultImageView.setImageBitmap(BitmapFactory.decodeFile(resultImgPath))
   }
 
   private fun saveResultImage() {
@@ -172,10 +206,10 @@ class ResultFragment : Fragment() {
     private const val ARGUMENT_PICKED_IMG = "ResultFragment:img"
     private const val BUNDLE_RESULT_IMG_PATH = "ResultFragment:resultImg"
 
-    fun newInstance(imageByteArray: ByteArray): ResultFragment {
+    fun newInstance(imgData: ByteArray): ResultFragment {
       val fragment = ResultFragment()
       val args = Bundle()
-      args.putByteArray(ARGUMENT_PICKED_IMG, imageByteArray)
+      args.putByteArray(ARGUMENT_PICKED_IMG, imgData)
       fragment.arguments = args
       return fragment
     }

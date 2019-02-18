@@ -9,6 +9,7 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import com.lndmflngs.colorizer.R
 import com.lndmflngs.colorizer.extensions.getImageBitmap
+import com.lndmflngs.colorizer.extensions.checkCurrentFragment
 import com.lndmflngs.colorizer.extensions.replaceFragment
 import com.lndmflngs.colorizer.extensions.toByteArray
 import com.lndmflngs.colorizer.extensions.toast
@@ -52,7 +53,12 @@ abstract class BaseActivity : AppCompatActivity() {
     if (requestCode == REQUEST_TAKE_IMAGE && resultCode == Activity.RESULT_OK) {
       val bitmap = getImageBitmap(data?.data!!)
       val imageByteArray = bitmap.toByteArray()
-      replaceFragment(R.id.fragment_container, ResultFragment.newInstance(imageByteArray))
+      val containerId = R.id.fragment_container
+      // if current fragment is already ResultFragment just load new data
+      // else (is other fragment) replace with newInstance of ResultFragment
+      checkCurrentFragment<ResultFragment>(containerId,
+        { it.loadNewData(imageByteArray) },
+        { replaceFragment(containerId, ResultFragment.newInstance(imageByteArray)) })
     }
   }
 

@@ -12,4 +12,5 @@
   <string name="description_open">Open photo icon</string>
 
   <string name="file_provider_authority" translatable="false">com.lndmflngs.colorizer.fileprovider</string>
+  <string name="action_change">Change</string>
 </resources>
