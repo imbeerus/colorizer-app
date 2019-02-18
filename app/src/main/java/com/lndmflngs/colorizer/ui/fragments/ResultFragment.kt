@@ -11,10 +11,8 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.algorithmia.Algorithmia
-import com.algorithmia.AlgorithmiaClient
-import com.algorithmia.algo.AlgoSuccess
 import com.lndmflngs.colorizer.R
+import com.lndmflngs.colorizer.algorithmia.AlgoClient
 import io.reactivex.Observable
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -24,12 +22,10 @@ import kotlinx.android.synthetic.main.fragment_result.fab
 import kotlinx.android.synthetic.main.fragment_result.progressBar
 import kotlinx.android.synthetic.main.fragment_result.resultView
 import kotlinx.android.synthetic.main.include_result.resultImageView
-import org.json.JSONObject
 import java.io.File
 
 class ResultFragment : Fragment() {
 
-  private lateinit var client: AlgorithmiaClient
   private lateinit var selectedImage: ByteArray
   private lateinit var shareMenuItem: MenuItem
 
@@ -40,8 +36,6 @@ class ResultFragment : Fragment() {
     // fetch arguments
     selectedImage = arguments?.getByteArray(ARGUMENT_IMG_BYTE_ARRAY)!!
     setHasOptionsMenu(true)
-    // setup Algorithmia client
-    client = Algorithmia.client("simPov43OY7x0I6egDS8AMM8Xlh1")
   }
 
   override fun onCreateView(
@@ -90,25 +84,10 @@ class ResultFragment : Fragment() {
 
   private fun makeAlgorithmiaCall(byteArray: ByteArray): String? {
     try {
-      val imageDir = client.dir(HOSTED_DATA_PATH)
-      val fileName = "${System.currentTimeMillis()}.jpg"
-      //  Upload byteArray to Algorithmia's hosted data
-      imageDir.file(fileName).put(byteArray)
-      val bwImage = imageDir.file(fileName)
-      val imageString = bwImage.toString()
-      val algorithm = client.algo(CLIENT_COLORFUL_IMAGE_COLORIZATION)
-      val result = algorithm.pipe(imageString)
-      //  Downloading Result Data from a Data Collection
-      if (result.isSuccess) {
-        val jsonResult = JSONObject((result as AlgoSuccess).asJsonString())
-        val imgUri = jsonResult.getString("output")
-        Log.i(TAG, "Result image uri: $imgUri")
-        val imgFile = client.file(imgUri)
-        if (imgFile.exists()) {
-          return imgFile.file.absolutePath
-        } else {
-          Log.e(TAG, "File don't exist")
-        }
+      val client = AlgoClient.getInstance(getString(R.string.algorithmia_api_key))
+      val response = client.uploadImage(byteArray)
+      if (response.isSuccess) {
+        return client.fetchResultImagePath(response)
       } else {
         Log.e(TAG, "Error during get result")
       }
@@ -157,7 +136,7 @@ class ResultFragment : Fragment() {
 //    resultImgFile = getOutputMediaFile()
 //    try {
 //      val fos = FileOutputStream(resultImgFile)
-//      val byteArray = bitmapToByteArray(BitmapFactory.decodeFile(resultTempFilePath))
+//      val byteArray = toByteArray(BitmapFactory.decodeFile(resultTempFilePath))
 //      fos.write(byteArray)
 //      fos.close()
 //      activity?.galleryAddPic(resultImgFile!!)
@@ -183,10 +162,6 @@ class ResultFragment : Fragment() {
   companion object {
     private const val TAG = "ResultFragment"
     private const val ARGUMENT_IMG_BYTE_ARRAY = "ResultFragment:img"
-
-    private const val CLIENT_COLORFUL_IMAGE_COLORIZATION =
-      "deeplearning/ColorfulImageColorization/1.1.13"
-    private const val HOSTED_DATA_PATH = "data://.my/colorize"
 
     fun newInstance(imageByteArray: ByteArray): ResultFragment {
       val fragment = ResultFragment()

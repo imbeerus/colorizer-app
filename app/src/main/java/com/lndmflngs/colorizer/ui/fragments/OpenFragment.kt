@@ -22,9 +22,9 @@ class OpenFragment : Fragment() {
         addCategory(Intent.CATEGORY_OPENABLE)
         type = "image/*"
       }
-      val title = getString(R.string.title_select_picture)
       activity?.startActivityForResult(
-        Intent.createChooser(pickPhoto, title), BaseActivity.REQUEST_TAKE_IMAGE
+        Intent.createChooser(pickPhoto, getString(R.string.title_select_picture)),
+        BaseActivity.REQUEST_TAKE_IMAGE
       )
     }
     return rootView

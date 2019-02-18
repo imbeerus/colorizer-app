@@ -2,19 +2,18 @@ package com.lndmflngs.colorizer.ui
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import com.lndmflngs.colorizer.R
+import com.lndmflngs.colorizer.extensions.getImageBitmap
 import com.lndmflngs.colorizer.extensions.replaceFragment
+import com.lndmflngs.colorizer.extensions.toByteArray
 import com.lndmflngs.colorizer.extensions.toast
 import com.lndmflngs.colorizer.ui.fragments.ResultFragment
 import kotlinx.android.synthetic.main.include_toolbar.toolbar
-import java.io.ByteArrayOutputStream
 
 abstract class BaseActivity : AppCompatActivity() {
 
@@ -51,17 +50,10 @@ abstract class BaseActivity : AppCompatActivity() {
   ) {
     super.onActivityResult(requestCode, resultCode, data)
     if (requestCode == REQUEST_TAKE_IMAGE && resultCode == Activity.RESULT_OK) {
-      val imageUri = data?.data
-      val imageBitmap = MediaStore.Images.Media.getBitmap(contentResolver, imageUri)
-      val imageByteArray = bitmapToByteArray(imageBitmap)
+      val bitmap = getImageBitmap(data?.data!!)
+      val imageByteArray = bitmap.toByteArray()
       replaceFragment(R.id.fragment_container, ResultFragment.newInstance(imageByteArray))
     }
-  }
-
-  private fun bitmapToByteArray(bitmap: Bitmap): ByteArray {
-    val byteArrayOutputStream = ByteArrayOutputStream()
-    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
-    return byteArrayOutputStream.toByteArray()
   }
 
   private fun initToolbar() {

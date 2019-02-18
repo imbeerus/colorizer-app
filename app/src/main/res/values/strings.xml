@@ -1,14 +1,16 @@
 <resources>
   <string name="app_name" translatable="false">Сolorizer</string>
-  <string name="hint_open_photo">Tap anywhere to open a photo</string>
-  <string name="description_open">Open photo icon</string>
+
+  <string name="msg_open_photo">Tap anywhere to open a photo</string>
+  <string name="action_save">Save</string>
+  <string name="action_share">Share</string>
+  <string name="action_about">About app</string>
+  <string name="action_settings">Settings</string>
+  <string name="action_feedback">Feedback</string>
+  <string name="title_share_img">Share image using</string>
   <string name="title_select_picture">Select picture</string>
-  <string name="title_save">Save</string>
-  <string name="title_share">Share</string>
-  <string name="title_about">About app</string>
+  <string name="description_open">Open photo icon</string>
 
   <string name="file_provider_authority" translatable="false">com.lndmflngs.colorizer.fileprovider</string>
-  <string name="title_settings">Settings</string>
-  <string name="title_feedback">Feedback</string>
-  <string name="title_share_img">Share image using</string>
+  <string name="algorithmia_api_key" translatable="false">YOUR_API_KEY</string>
 </resources>

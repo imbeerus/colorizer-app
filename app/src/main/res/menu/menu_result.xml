@@ -5,7 +5,7 @@
       android:id="@+id/share"
       android:enabled="false"
       android:orderInCategory="3"
-      android:title="@string/title_share"
+      android:title="@string/action_share"
       app:showAsAction="never"
       />
 </menu>
