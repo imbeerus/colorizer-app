@@ -27,14 +27,15 @@ import java.io.File
 class ResultFragment : Fragment() {
 
   private lateinit var selectedImage: ByteArray
-  private lateinit var shareMenuItem: MenuItem
+  private lateinit var resultImgPath: String
+  private lateinit var menu: Menu
 
   private var resultImgFile: File? = null
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     // fetch arguments
-    selectedImage = arguments?.getByteArray(ARGUMENT_IMG_BYTE_ARRAY)!!
+    selectedImage = arguments?.getByteArray(ARGUMENT_PICKED_IMG)!!
     setHasOptionsMenu(true)
   }
 
@@ -51,7 +52,7 @@ class ResultFragment : Fragment() {
     inflater: MenuInflater
   ) {
     inflater.inflate(R.menu.menu_result, menu)
-    shareMenuItem = menu.findItem(R.id.share)
+    this.menu = menu
     super.onCreateOptionsMenu(menu, inflater)
   }
 
@@ -63,11 +64,35 @@ class ResultFragment : Fragment() {
     super.onViewCreated(view, savedInstanceState)
     // set fab listener to share result
     fab.setOnClickListener { shareResultImgFile() }
-    getColoredImagePath()
-      .firstOrError()
-      .subscribeOn(Schedulers.single())
-      .observeOn(AndroidSchedulers.mainThread())
-      .subscribe(getColorzieObserver())
+    if (savedInstanceState != null) {
+      resultImgPath = savedInstanceState.getString(BUNDLE_RESULT_IMG_PATH)!!
+      showColoredResult()
+    } else {
+      getColoredImagePath()
+        .firstOrError()
+        .subscribeOn(Schedulers.single())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(object : SingleObserver<String> {
+          override fun onSuccess(t: String) {
+            resultImgPath = t
+            showColoredResult()
+//          saveResultImage()
+          }
+
+          override fun onSubscribe(d: Disposable) {
+            Log.d(TAG, " onSubscribe : " + d.isDisposed)
+          }
+
+          override fun onError(e: Throwable) {
+            Log.d(TAG, " onError : " + e.message)
+          }
+        })
+    }
+  }
+
+  override fun onSaveInstanceState(outState: Bundle) {
+    outState.putString(BUNDLE_RESULT_IMG_PATH, resultImgPath)
+    super.onSaveInstanceState(outState)
   }
 
   private fun getColoredImagePath(): Observable<String> {
@@ -97,23 +122,6 @@ class ResultFragment : Fragment() {
     return null
   }
 
-  private fun getColorzieObserver(): SingleObserver<String> {
-    return object : SingleObserver<String> {
-      override fun onSuccess(t: String) {
-        showColoredResult(t)
-//          saveResultImage()
-      }
-
-      override fun onSubscribe(d: Disposable) {
-        Log.d(TAG, " onSubscribe : " + d.isDisposed)
-      }
-
-      override fun onError(e: Throwable) {
-        Log.d(TAG, " onError : " + e.message)
-      }
-    }
-  }
-
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
     return when (item.itemId) {
       R.id.share -> {
@@ -124,12 +132,12 @@ class ResultFragment : Fragment() {
     }
   }
 
-  private fun showColoredResult(resultTempFilePath: String) {
+  private fun showColoredResult() {
     progressBar.visibility = View.GONE
     resultView.visibility = View.VISIBLE
     fab.visibility = View.VISIBLE
-    shareMenuItem.isEnabled = true
-    resultImageView.setImageBitmap(BitmapFactory.decodeFile(resultTempFilePath))
+    menu.findItem(R.id.share).isEnabled = true
+    resultImageView.setImageBitmap(BitmapFactory.decodeFile(resultImgPath))
   }
 
   private fun saveResultImage() {
@@ -161,12 +169,13 @@ class ResultFragment : Fragment() {
 
   companion object {
     private const val TAG = "ResultFragment"
-    private const val ARGUMENT_IMG_BYTE_ARRAY = "ResultFragment:img"
+    private const val ARGUMENT_PICKED_IMG = "ResultFragment:img"
+    private const val BUNDLE_RESULT_IMG_PATH = "ResultFragment:resultImg"
 
     fun newInstance(imageByteArray: ByteArray): ResultFragment {
       val fragment = ResultFragment()
       val args = Bundle()
-      args.putByteArray(ARGUMENT_IMG_BYTE_ARRAY, imageByteArray)
+      args.putByteArray(ARGUMENT_PICKED_IMG, imageByteArray)
       fragment.arguments = args
       return fragment
     }
