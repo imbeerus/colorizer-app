@@ -5,12 +5,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import com.lndmflngs.colorizer.R
 import com.lndmflngs.colorizer.extensions.getImageBitmap
-import com.lndmflngs.colorizer.extensions.checkCurrentFragment
+import com.lndmflngs.colorizer.extensions.checkFragmentClass
 import com.lndmflngs.colorizer.extensions.replaceFragment
+import com.lndmflngs.colorizer.extensions.setupActionBar
 import com.lndmflngs.colorizer.extensions.toByteArray
 import com.lndmflngs.colorizer.extensions.toast
 import com.lndmflngs.colorizer.ui.fragments.ResultFragment
@@ -20,7 +20,11 @@ abstract class BaseActivity : AppCompatActivity() {
 
   override fun onPostCreate(savedInstanceState: Bundle?) {
     super.onPostCreate(savedInstanceState)
-    initToolbar()
+    window.setBackgroundDrawableResource(android.R.drawable.screen_background_light)
+    setupActionBar(toolbar) {
+      setDisplayHomeAsUpEnabled(true)
+      setHomeAsUpIndicator(R.drawable.ic_leaves)
+    }
   }
 
   override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -56,18 +60,9 @@ abstract class BaseActivity : AppCompatActivity() {
       val containerId = R.id.fragment_container
       // if current fragment is already ResultFragment just load new data
       // else (is other fragment) replace with newInstance of ResultFragment
-      checkCurrentFragment<ResultFragment>(containerId,
+      checkFragmentClass<ResultFragment>(containerId,
         { it.loadNewData(imageByteArray) },
         { replaceFragment(containerId, ResultFragment.newInstance(imageByteArray)) })
-    }
-  }
-
-  private fun initToolbar() {
-    setSupportActionBar(toolbar)
-    val actionbar: ActionBar? = supportActionBar
-    actionbar?.apply {
-      setDisplayHomeAsUpEnabled(true)
-      setHomeAsUpIndicator(R.drawable.ic_leaves)
     }
   }
 
