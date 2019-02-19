@@ -8,6 +8,7 @@ import android.net.Uri
 import android.provider.MediaStore
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import java.io.File
 
 fun Context.drawable(res: Int): Drawable? = ContextCompat.getDrawable(this, res)
@@ -21,9 +22,11 @@ fun Context.galleryAddPic(imageFile: File) {
 
 fun Context.galleryAddPic(imagePath: String) = galleryAddPic(File(imagePath))
 
-fun Context.getImageBitmap(uri: Uri): Bitmap = MediaStore.Images.Media.getBitmap(contentResolver, uri)
+fun Context.getMediaBitmap(uri: Uri): Bitmap =
+  MediaStore.Images.Media.getBitmap(contentResolver, uri)
 
-fun Context.toast(
-  str: String,
-  duration: Int = Toast.LENGTH_SHORT
-) = Toast.makeText(this, str, duration).show()
+fun Context.getUriForFile(auth: String, file: File): Uri =
+  FileProvider.getUriForFile(this, auth, file)
+
+fun Context.toast(str: String, duration: Int = Toast.LENGTH_SHORT) =
+  Toast.makeText(this, str, duration).show()
