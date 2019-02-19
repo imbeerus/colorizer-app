@@ -4,9 +4,12 @@
     <item name="colorPrimary">@color/primaryColor</item>
     <item name="colorPrimaryDark">@color/primaryDarkColor</item>
     <item name="colorAccent">@color/secondaryColor</item>
-    <item name="android:windowBackground">@drawable/splash</item>
     <item name="android:navigationBarColor" tools:targetApi="lollipop">@color/primaryColor</item>
     <item name="actionOverflowButtonStyle">@style/AppTheme.OverflowButtonStyle</item>
+  </style>
+
+  <style name="AppTheme.Splash" parent="AppTheme">
+    <item name="android:windowBackground">@drawable/splash</item>
   </style>
 
   <style name="AppTheme.OverflowButtonStyle" parent="Widget.AppCompat.ActionButton.Overflow">
