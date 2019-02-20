@@ -1,12 +1,9 @@
 package com.lndmflngs.colorizer.ui.fragments
 
-import android.R.attr.bitmap
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -20,12 +17,7 @@ import com.lndmflngs.colorizer.algorithmia.AlgoClient
 import com.lndmflngs.colorizer.extensions.getUriForFile
 import com.lndmflngs.colorizer.extensions.pickPhoto
 import com.lndmflngs.colorizer.ui.BaseActivity
-import io.reactivex.Observable
-import io.reactivex.Single
-import io.reactivex.SingleObserver
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import com.lndmflngs.colorizer.utils.GlideUtils
 import kotlinx.android.synthetic.main.fragment_result.fab
 import kotlinx.android.synthetic.main.fragment_result.progressBar
 import kotlinx.android.synthetic.main.fragment_result.resultView
@@ -38,17 +30,12 @@ import java.io.IOException
 class ResultFragment : Fragment() {
 
   private lateinit var algoClient: AlgoClient
-  private lateinit var selectedImage: ByteArray
   private lateinit var resultImgPath: String
   private lateinit var menu: Menu
-
-  private var resultImgFile: File? = null
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     algoClient = AlgoClient.getInstance(getString(R.string.algorithmia_api_key))
-    // fetch arguments
-    selectedImage = arguments?.getByteArray(ARGUMENT_PICKED_IMG)!!
     setHasOptionsMenu(true)
   }
 
@@ -75,86 +62,15 @@ class ResultFragment : Fragment() {
       resultImgPath = savedInstanceState.getString(BUNDLE_RESULT_IMG_PATH)!!
       showColoredResult()
     } else {
-      loadData()
+      // load resultImgPath abd show it
+      val byteArray = arguments?.getByteArray(ARGUMENT_PICKED_IMG)!!
+      loadData(byteArray)
     }
   }
 
   override fun onSaveInstanceState(outState: Bundle) {
     outState.putString(BUNDLE_RESULT_IMG_PATH, resultImgPath)
     super.onSaveInstanceState(outState)
-  }
-
-  private fun loadData() {
-    getColoredImagePath()
-      .subscribeOn(Schedulers.single())
-      .observeOn(AndroidSchedulers.mainThread())
-      .subscribe(object : SingleObserver<String> {
-        override fun onSuccess(t: String) {
-          resultImgPath = t
-          showColoredResult()
-//          saveResultImage()
-        }
-
-        override fun onSubscribe(d: Disposable) {
-          Log.d(TAG, " onSubscribe : " + d.isDisposed)
-        }
-
-        override fun onError(e: Throwable) {
-          Log.d(TAG, " onError : " + e.message)
-        }
-      })
-  }
-
-  fun loadNewData(byteArray: ByteArray) {
-    showResultUI(false) // show load
-    selectedImage = byteArray
-    loadData()
-  }
-
-  private fun showColoredResult() {
-    showResultUI(true)
-    Glide.with(this).load(resultImgPath).centerCrop().into(resultImageView)
-  }
-
-  private fun showResultUI(isShow: Boolean) {
-    if (isShow) {
-      progressBar.visibility = View.GONE
-      resultView.visibility = View.VISIBLE
-      fab.visibility = View.VISIBLE
-      menu.findItem(R.id.change).isEnabled = true
-      menu.findItem(R.id.share).isEnabled = true
-    } else {
-      progressBar.visibility = View.VISIBLE
-      resultView.visibility = View.GONE
-      fab.visibility = View.GONE
-      menu.findItem(R.id.change).isEnabled = false
-      menu.findItem(R.id.share).isEnabled = false
-    }
-  }
-
-  private fun getColoredImagePath(): Single<String> {
-    return Single.create {
-      try {
-        val response = makeAlgorithmiaCall(selectedImage)
-        it.onSuccess(response!!)
-      } catch (e: Exception) {
-        it.onError(e)
-      }
-    }
-  }
-
-  private fun makeAlgorithmiaCall(byteArray: ByteArray): String? {
-    try {
-      val response = algoClient.uploadImage(byteArray)
-      if (response.isSuccess) {
-        return algoClient.fetchResultImagePath(response)
-      } else {
-        Log.e(TAG, "Error during get result")
-      }
-    } catch (e: Exception) {
-      Log.e(TAG, e.toString())
-    }
-    return null
   }
 
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -174,18 +90,53 @@ class ResultFragment : Fragment() {
     }
   }
 
-  private fun saveResultImageToCache(bitmap: Bitmap) {
-    try {
-      val cachePath = File(context?.cacheDir, CACHE_PATH_NAME)
-      cachePath.mkdirs() // don't forget to make the directory
-      val stream = FileOutputStream("$cachePath/$CACHE_IMG_NAME") // overwrites this image every time
-      bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-      stream.close()
+  private fun loadData(byteArray: ByteArray) = with(byteArray) {
+    algoClient.loadData(this) {
+      resultImgPath = it
+      showColoredResult()
+      saveResultImageToCache()
+    }
+  }
 
-    } catch (e: FileNotFoundException) {
-      e.printStackTrace()
-    } catch (e: IOException) {
-      e.printStackTrace()
+  fun loadNewData(byteArray: ByteArray) {
+    showResultUI(false) // show load
+    loadData(byteArray)
+  }
+
+  private fun showColoredResult() {
+    showResultUI(true)
+    Glide.with(this).load(resultImgPath).fitCenter().into(resultImageView)
+  }
+
+  private fun showResultUI(isShow: Boolean) {
+    if (isShow) {
+      progressBar.visibility = View.GONE
+      resultView.visibility = View.VISIBLE
+      fab.visibility = View.VISIBLE
+      menu.findItem(R.id.change).isEnabled = true
+      menu.findItem(R.id.share).isEnabled = true
+    } else {
+      progressBar.visibility = View.VISIBLE
+      resultView.visibility = View.GONE
+      fab.visibility = View.GONE
+      menu.findItem(R.id.change).isEnabled = false
+      menu.findItem(R.id.share).isEnabled = false
+    }
+  }
+
+  private fun saveResultImageToCache() {
+    GlideUtils.loadImageAsync(this, resultImgPath) {
+      try {
+        val cachePath = File(context?.cacheDir, CACHE_PATH_NAME)
+        cachePath.mkdirs()
+        val stream = FileOutputStream("$cachePath/$CACHE_IMG_NAME")
+        it.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+        stream.close()
+      } catch (e: FileNotFoundException) {
+        e.printStackTrace()
+      } catch (e: IOException) {
+        e.printStackTrace()
+      }
     }
   }
 
@@ -194,7 +145,6 @@ class ResultFragment : Fragment() {
     val imagePath = File(context!!.cacheDir, CACHE_PATH_NAME)
     val newFile = File(imagePath, CACHE_IMG_NAME)
     val contentUri = context.getUriForFile(getString(R.string.file_provider_authority), newFile)
-
     val shareIntent = Intent().apply {
       action = Intent.ACTION_SEND
       addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)

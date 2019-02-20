@@ -1,11 +1,9 @@
 package com.lndmflngs.colorizer
 
-import android.content.Context
-import androidx.multidex.MultiDex
-import androidx.multidex.MultiDexApplication
+import android.app.Application
 import com.lndmflngs.colorizer.extensions.DelegatesExt
 
-class App : MultiDexApplication() {
+class App : Application() {
 
   companion object {
     var instance: App by DelegatesExt.notNullSingleValue()
@@ -15,10 +13,4 @@ class App : MultiDexApplication() {
     super.onCreate()
     instance = this
   }
-
-  override fun attachBaseContext(base: Context?) {
-    super.attachBaseContext(base)
-    MultiDex.install(this)
-  }
-
 }
