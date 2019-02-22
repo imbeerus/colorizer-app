@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.lndmflngs.colorizer.R
 import com.lndmflngs.colorizer.extensions.checkFragmentClass

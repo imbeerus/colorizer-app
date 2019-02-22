@@ -1,7 +1,8 @@
 <resources>
   <string name="app_name" translatable="false">Сolorizer</string>
-
   <string name="msg_open_photo">Tap anywhere to open a photo</string>
+  <string name="msg_warning">This will take a some time to due algorithm initialization</string>
+
   <string name="action_save">Save</string>
   <string name="action_share">Share</string>
   <string name="action_about">About app</string>
@@ -10,8 +11,8 @@
   <string name="title_share_img">Share image using</string>
   <string name="title_select_picture">Select picture</string>
   <string name="description_open">Open photo icon</string>
-
-  <string name="file_provider_authority" translatable="false">com.lndmflngs.colorizer.fileprovider</string>
   <string name="action_change">Change</string>
   <string name="share_via">Share via</string>
+
+  <string name="file_provider_authority" translatable="false">com.lndmflngs.colorizer.fileprovider</string>
 </resources>

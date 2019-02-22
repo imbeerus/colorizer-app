@@ -2,33 +2,26 @@ package com.lndmflngs.colorizer.ui.fragments
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.os.Environment
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.FileProvider
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.lndmflngs.colorizer.R
 import com.lndmflngs.colorizer.algorithmia.AlgoClient
+import com.lndmflngs.colorizer.extensions.getBitmapUri
 import com.lndmflngs.colorizer.extensions.pickPhoto
+import com.lndmflngs.colorizer.extensions.toast
 import com.lndmflngs.colorizer.ui.BaseActivity
-import com.lndmflngs.colorizer.utils.GlideUtils
 import kotlinx.android.synthetic.main.fragment_result.fab
 import kotlinx.android.synthetic.main.fragment_result.progressBar
 import kotlinx.android.synthetic.main.fragment_result.resultView
 import kotlinx.android.synthetic.main.include_result.resultImageView
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
 
 class ResultFragment : Fragment() {
 
@@ -94,6 +87,7 @@ class ResultFragment : Fragment() {
   }
 
   private fun loadData(byteArray: ByteArray) {
+    context?.toast(R.string.msg_warning, Toast.LENGTH_LONG)
     algoClient.loadData(byteArray) {
       resultImgPath = it
       showColoredResult()
@@ -110,6 +104,7 @@ class ResultFragment : Fragment() {
     Glide.with(this).load(resultImgPath).fitCenter().into(resultImageView)
   }
 
+  // TODO: fix menu is null after rotation
   private fun showResultUI(isShow: Boolean) {
     if (isShow) {
       progressBar.visibility = View.GONE
@@ -127,42 +122,13 @@ class ResultFragment : Fragment() {
   }
 
   private fun shareResultImgFile() {
-    val bmpUri = getResultBitmapUri()
+    val bmpUri = context?.getBitmapUri(resultImageView)
     // Construct share intent as described above based on bitmap
     val shareIntent = Intent(Intent.ACTION_SEND).apply {
       putExtra(Intent.EXTRA_STREAM, bmpUri)
       type = "image/*"
     }
     startActivity(Intent.createChooser(shareIntent, getString(R.string.share_via)))
-  }
-
-  private fun getResultBitmapUri(): Uri? {
-    // Extract Bitmap from ImageView drawable
-    val drawable = resultImageView.drawable
-    val bmp = if (drawable is BitmapDrawable) {
-      (resultImageView.drawable as BitmapDrawable).bitmap
-    } else {
-      null
-    }
-    // Store image to default external storage directory
-    try {
-      val file = File(
-        context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
-        "${System.currentTimeMillis()}.png"
-      )
-      val out = FileOutputStream(file)
-      bmp!!.compress(Bitmap.CompressFormat.PNG, 100, out)
-      out.close()
-
-      return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        FileProvider.getUriForFile(context!!, getString(R.string.file_provider_authority), file)
-      } else {
-        Uri.fromFile(file)
-      }
-    } catch (e: IOException) {
-      e.printStackTrace()
-    }
-    return null
   }
 
   companion object {
