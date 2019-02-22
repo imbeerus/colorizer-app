@@ -13,4 +13,5 @@
 
   <string name="file_provider_authority" translatable="false">com.lndmflngs.colorizer.fileprovider</string>
   <string name="action_change">Change</string>
+  <string name="share_via">Share via</string>
 </resources>

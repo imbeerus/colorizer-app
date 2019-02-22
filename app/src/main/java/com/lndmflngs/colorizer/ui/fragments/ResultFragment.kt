@@ -3,18 +3,22 @@ package com.lndmflngs.colorizer.ui.fragments
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.lndmflngs.colorizer.R
 import com.lndmflngs.colorizer.algorithmia.AlgoClient
-import com.lndmflngs.colorizer.extensions.getUriForFile
 import com.lndmflngs.colorizer.extensions.pickPhoto
 import com.lndmflngs.colorizer.ui.BaseActivity
 import com.lndmflngs.colorizer.utils.GlideUtils
@@ -23,7 +27,6 @@ import kotlinx.android.synthetic.main.fragment_result.progressBar
 import kotlinx.android.synthetic.main.fragment_result.resultView
 import kotlinx.android.synthetic.main.include_result.resultImageView
 import java.io.File
-import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
 
@@ -90,11 +93,10 @@ class ResultFragment : Fragment() {
     }
   }
 
-  private fun loadData(byteArray: ByteArray) = with(byteArray) {
-    algoClient.loadData(this) {
+  private fun loadData(byteArray: ByteArray) {
+    algoClient.loadData(byteArray) {
       resultImgPath = it
       showColoredResult()
-      saveResultImageToCache()
     }
   }
 
@@ -124,34 +126,43 @@ class ResultFragment : Fragment() {
     }
   }
 
-  private fun saveResultImageToCache() {
-    GlideUtils.loadImageAsync(this, resultImgPath) {
-      try {
-        val cachePath = File(context?.cacheDir, CACHE_PATH_NAME)
-        cachePath.mkdirs()
-        val stream = FileOutputStream("$cachePath/$CACHE_IMG_NAME")
-        it.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-        stream.close()
-      } catch (e: FileNotFoundException) {
-        e.printStackTrace()
-      } catch (e: IOException) {
-        e.printStackTrace()
-      }
+  private fun shareResultImgFile() {
+    val bmpUri = getResultBitmapUri()
+    // Construct share intent as described above based on bitmap
+    val shareIntent = Intent(Intent.ACTION_SEND).apply {
+      putExtra(Intent.EXTRA_STREAM, bmpUri)
+      type = "image/*"
     }
+    startActivity(Intent.createChooser(shareIntent, getString(R.string.share_via)))
   }
 
-  private fun shareResultImgFile() {
-    val context = activity
-    val imagePath = File(context!!.cacheDir, CACHE_PATH_NAME)
-    val newFile = File(imagePath, CACHE_IMG_NAME)
-    val contentUri = context.getUriForFile(getString(R.string.file_provider_authority), newFile)
-    val shareIntent = Intent().apply {
-      action = Intent.ACTION_SEND
-      addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-      setDataAndType(contentUri, context.contentResolver.getType(contentUri))
-      putExtra(Intent.EXTRA_STREAM, contentUri)
+  private fun getResultBitmapUri(): Uri? {
+    // Extract Bitmap from ImageView drawable
+    val drawable = resultImageView.drawable
+    val bmp = if (drawable is BitmapDrawable) {
+      (resultImageView.drawable as BitmapDrawable).bitmap
+    } else {
+      null
     }
-    startActivity(Intent.createChooser(shareIntent, "Choose an app"))
+    // Store image to default external storage directory
+    try {
+      val file = File(
+        context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+        "${System.currentTimeMillis()}.png"
+      )
+      val out = FileOutputStream(file)
+      bmp!!.compress(Bitmap.CompressFormat.PNG, 100, out)
+      out.close()
+
+      return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        FileProvider.getUriForFile(context!!, getString(R.string.file_provider_authority), file)
+      } else {
+        Uri.fromFile(file)
+      }
+    } catch (e: IOException) {
+      e.printStackTrace()
+    }
+    return null
   }
 
   companion object {
@@ -159,9 +170,6 @@ class ResultFragment : Fragment() {
 
     private const val ARGUMENT_PICKED_IMG = "ResultFragment:img"
     private const val BUNDLE_RESULT_IMG_PATH = "ResultFragment:resultImg"
-
-    private const val CACHE_PATH_NAME = "shared"
-    private const val CACHE_IMG_NAME = "image.jpg"
 
     fun newInstance(imgData: ByteArray): ResultFragment {
       val fragment = ResultFragment()
