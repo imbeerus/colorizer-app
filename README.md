@@ -43,8 +43,8 @@ limitations under the License.
 ```
 [1]: https://github.com/lndmflngs/colorizer-app/releases/latest
 [2]: https://algorithmia.com/
-[3]: https://github.com/lndmflngs/colorizer-app/blob/master/app/src/main/java/com/lndmflngs/colorizer/ui/fragments/ResultFragment.kt#L41
-[4]: https://github.com/lndmflngs/colorizer-app/blob/master/app/src/main/java/com/lndmflngs/colorizer/algorithmia/AlgoClient.kt#L38
+[3]: https://github.com/lndmflngs/colorizer-app/blob/master/app/src/main/java/com/lndmflngs/colorizer/ui/fragments/ResultFragment.kt
+[4]: https://github.com/lndmflngs/colorizer-app/blob/master/app/src/main/java/com/lndmflngs/colorizer/algorithmia/AlgoClient.kt
 [5]: https://algorithmia.com/developers/data/hosted/
 [6]: https://www.freepik.com/
 [7]: https://www.flaticon.com/
