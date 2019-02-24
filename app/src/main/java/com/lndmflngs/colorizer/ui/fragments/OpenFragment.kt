@@ -1,14 +1,12 @@
 package com.lndmflngs.colorizer.ui.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.lndmflngs.colorizer.R
-import com.lndmflngs.colorizer.extensions.pickPhoto
-import com.lndmflngs.colorizer.ui.BaseActivity
+import com.lndmflngs.colorizer.utils.AppUtils
 
 class OpenFragment : Fragment() {
 
@@ -18,12 +16,7 @@ class OpenFragment : Fragment() {
     savedInstanceState: Bundle?
   ): View? {
     val rootView = inflater.inflate(R.layout.fragment_open, container, false)
-    rootView.setOnClickListener {
-      activity?.startActivityForResult(
-        Intent.createChooser(pickPhoto, getString(R.string.title_select_picture)),
-        BaseActivity.REQUEST_TAKE_IMAGE
-      )
-    }
+    rootView.setOnClickListener { AppUtils.startPickImage(activity!!) }
     return rootView
   }
 

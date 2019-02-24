@@ -1,7 +1,6 @@
 package com.lndmflngs.colorizer.ui.fragments
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -15,9 +14,8 @@ import com.bumptech.glide.Glide
 import com.lndmflngs.colorizer.R
 import com.lndmflngs.colorizer.algorithmia.AlgoClient
 import com.lndmflngs.colorizer.extensions.getBitmapUri
-import com.lndmflngs.colorizer.extensions.pickPhoto
 import com.lndmflngs.colorizer.extensions.toast
-import com.lndmflngs.colorizer.ui.BaseActivity
+import com.lndmflngs.colorizer.utils.AppUtils
 import kotlinx.android.synthetic.main.fragment_result.fab
 import kotlinx.android.synthetic.main.fragment_result.progressBar
 import kotlinx.android.synthetic.main.fragment_result.resultView
@@ -26,8 +24,10 @@ import kotlinx.android.synthetic.main.include_result.resultImageView
 class ResultFragment : Fragment() {
 
   private lateinit var algoClient: AlgoClient
-  private lateinit var resultImgPath: String
-  private lateinit var menu: Menu
+  private lateinit var resultImgSource: String
+
+  private var isMenuActionsEnabled: Boolean = false
+  private val menuItems = arrayOf(R.id.change, R.id.share)
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -45,8 +45,12 @@ class ResultFragment : Fragment() {
 
   override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
     inflater.inflate(R.menu.menu_result, menu)
-    this.menu = menu
     super.onCreateOptionsMenu(menu, inflater)
+  }
+
+  override fun onPrepareOptionsMenu(menu: Menu) {
+    super.onPrepareOptionsMenu(menu)
+    menuItems.forEach { menu.findItem(it).isEnabled = isMenuActionsEnabled }
   }
 
   @SuppressLint("StaticFieldLeak")
@@ -55,27 +59,24 @@ class ResultFragment : Fragment() {
     // set fab listener to share result
     fab.setOnClickListener { shareResultImgFile() }
     if (savedInstanceState != null) {
-      resultImgPath = savedInstanceState.getString(BUNDLE_RESULT_IMG_PATH)!!
+      resultImgSource = savedInstanceState.getString(BUNDLE_RESULT_IMG_SOURCE)!!
       showColoredResult()
     } else {
-      // load resultImgPath abd show it
+      // load resultImgSource abd show it
       val byteArray = arguments?.getByteArray(ARGUMENT_PICKED_IMG)!!
       loadData(byteArray)
     }
   }
 
   override fun onSaveInstanceState(outState: Bundle) {
-    outState.putString(BUNDLE_RESULT_IMG_PATH, resultImgPath)
+    outState.putString(BUNDLE_RESULT_IMG_SOURCE, resultImgSource)
     super.onSaveInstanceState(outState)
   }
 
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
     return when (item.itemId) {
       R.id.change -> {
-        activity?.startActivityForResult(
-          Intent.createChooser(pickPhoto, getString(R.string.title_select_picture)),
-          BaseActivity.REQUEST_TAKE_IMAGE
-        )
+        AppUtils.startPickImage(activity!!)
         true
       }
       R.id.share -> {
@@ -87,10 +88,12 @@ class ResultFragment : Fragment() {
   }
 
   private fun loadData(byteArray: ByteArray) {
+    AppUtils.lockOrientation(activity)
     context?.toast(R.string.msg_warning, Toast.LENGTH_LONG)
     algoClient.loadData(byteArray) {
-      resultImgPath = it
+      resultImgSource = it
       showColoredResult()
+      AppUtils.unlockOrientation(activity)
     }
   }
 
@@ -101,41 +104,34 @@ class ResultFragment : Fragment() {
 
   private fun showColoredResult() {
     showResultUI(true)
-    Glide.with(this).load(resultImgPath).fitCenter().into(resultImageView)
+    Glide.with(this).load(resultImgSource).fitCenter().into(resultImageView)
   }
 
-  // TODO: fix menu is null after rotation
   private fun showResultUI(isShow: Boolean) {
     if (isShow) {
       progressBar.visibility = View.GONE
       resultView.visibility = View.VISIBLE
       fab.visibility = View.VISIBLE
-      menu.findItem(R.id.change).isEnabled = true
-      menu.findItem(R.id.share).isEnabled = true
+      isMenuActionsEnabled = true
     } else {
       progressBar.visibility = View.VISIBLE
       resultView.visibility = View.GONE
       fab.visibility = View.GONE
-      menu.findItem(R.id.change).isEnabled = false
-      menu.findItem(R.id.share).isEnabled = false
+      isMenuActionsEnabled = false
     }
+    activity?.invalidateOptionsMenu()
   }
 
   private fun shareResultImgFile() {
     val bmpUri = context?.getBitmapUri(resultImageView)
-    // Construct share intent as described above based on bitmap
-    val shareIntent = Intent(Intent.ACTION_SEND).apply {
-      putExtra(Intent.EXTRA_STREAM, bmpUri)
-      type = "image/*"
-    }
-    startActivity(Intent.createChooser(shareIntent, getString(R.string.share_via)))
+    bmpUri?.let { AppUtils.shareResultImgFile(activity!!, it) }
   }
 
   companion object {
     private const val TAG = "ResultFragment"
 
     private const val ARGUMENT_PICKED_IMG = "ResultFragment:img"
-    private const val BUNDLE_RESULT_IMG_PATH = "ResultFragment:resultImg"
+    private const val BUNDLE_RESULT_IMG_SOURCE = "ResultFragment:resultSrc"
 
     fun newInstance(imgData: ByteArray): ResultFragment {
       val fragment = ResultFragment()

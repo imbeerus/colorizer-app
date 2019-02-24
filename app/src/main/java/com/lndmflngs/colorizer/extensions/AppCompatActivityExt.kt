@@ -1,6 +1,5 @@
 package com.lndmflngs.colorizer.extensions
 
-import android.content.Intent
 import androidx.annotation.IdRes
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
@@ -8,11 +7,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-
-val pickPhoto = Intent(Intent.ACTION_GET_CONTENT).apply {
-  addCategory(Intent.CATEGORY_OPENABLE)
-  type = "image/*"
-}
 
 fun AppCompatActivity.setupActionBar(toolbar: Toolbar, action: ActionBar.() -> Unit) {
   setSupportActionBar(toolbar)
