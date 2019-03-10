@@ -89,6 +89,8 @@ class ResultFragment : Fragment() {
 
   private fun loadData(byteArray: ByteArray) {
     AppUtils.lockOrientation(activity)
+    // The first call to this algorithm will take a bit longer than sequential calls to due algorithm initialization.
+    // All following calls will be significantly faster.
     context?.toast(R.string.msg_warning, Toast.LENGTH_LONG)
     algoClient.loadData(byteArray) {
       resultImgSource = it

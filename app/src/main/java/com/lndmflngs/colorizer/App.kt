@@ -1,6 +1,7 @@
 package com.lndmflngs.colorizer
 
 import android.app.Application
+import androidx.appcompat.app.AppCompatDelegate
 import com.lndmflngs.colorizer.extensions.DelegatesExt
 
 class App : Application() {
@@ -12,5 +13,6 @@ class App : Application() {
   override fun onCreate() {
     super.onCreate()
     instance = this
+    AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
   }
 }

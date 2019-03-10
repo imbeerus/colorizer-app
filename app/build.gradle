@@ -1,9 +1,6 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
-
 apply plugin: 'kotlin-kapt'
 
 android {
@@ -12,10 +9,8 @@ android {
     applicationId "com.lndmflngs.colorizer"
     minSdkVersion 15
     targetSdkVersion 28
-    versionCode 6
-    versionName "0.1.4"
-    resConfigs "en"
-    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    versionCode 7
+    versionName "0.1.5"
     vectorDrawables.useSupportLibrary = true
   }
   buildTypes {
@@ -41,11 +36,11 @@ dependencies {
   implementation "androidx.cardview:cardview:1.0.0"
   implementation "androidx.recyclerview:recyclerview:1.0.0"
   implementation 'androidx.core:core-ktx:1.0.1'
-  implementation 'com.google.android.material:material:1.1.0-alpha03'
+  implementation 'com.google.android.material:material:1.1.0-alpha04'
 
   // reactive
   implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
-  implementation 'io.reactivex.rxjava2:rxjava:2.2.6'
+  implementation 'io.reactivex.rxjava2:rxjava:2.2.7'
 
   // algorithmia
   implementation 'com.algorithmia:algorithmia-android:1.0.1'
@@ -53,7 +48,4 @@ dependencies {
   // glide - image loading and caching library
   implementation 'com.github.bumptech.glide:glide:4.9.0'
   kapt 'com.github.bumptech.glide:compiler:4.9.0'
-
-  // offer some information of libraries
-  implementation "com.mikepenz:aboutlibraries:6.2.3"
 }

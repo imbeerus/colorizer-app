@@ -1,20 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.appbar.AppBarLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/appbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     >
 
-  <androidx.appcompat.widget.Toolbar
-      android:id="@+id/toolbar"
+  <com.google.android.material.appbar.AppBarLayout
+      android:id="@+id/appbar"
       android:layout_width="match_parent"
-      android:layout_height="?attr/actionBarSize"
-      android:background="?attr/colorPrimary"
-      android:minHeight="?attr/actionBarSize"
-      app:layout_scrollFlags="enterAlways|scroll"
-      app:title=""
-      app:titleTextColor="@android:color/white"
+      android:layout_height="wrap_content"
+      >
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        app:layout_scrollFlags="enterAlways|scroll"
+        app:titleTextColor="@android:color/white"
+        />
+  </com.google.android.material.appbar.AppBarLayout>
+
+  <View
+      android:layout_width="match_parent"
+      android:layout_height="4dp"
+      android:background="@drawable/dropshadow"
       />
-</com.google.android.material.appbar.AppBarLayout>
+</LinearLayout>

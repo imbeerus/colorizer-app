@@ -5,19 +5,13 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
-import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Log
 import android.view.Surface
 import android.view.WindowManager
+import androidx.appcompat.app.AppCompatActivity
 import com.lndmflngs.colorizer.R
-import com.lndmflngs.colorizer.R.color
-import com.lndmflngs.colorizer.extensions.color
-import com.lndmflngs.colorizer.extensions.getBitmapUri
-import com.mikepenz.aboutlibraries.Libs
-import com.mikepenz.aboutlibraries.LibsBuilder
-import com.mikepenz.aboutlibraries.util.Colors
-import kotlinx.android.synthetic.main.include_result.resultImageView
+import com.lndmflngs.colorizer.ui.dialogs.AboutDialog
 
 object AppUtils {
 
@@ -27,14 +21,8 @@ object AppUtils {
   const val REQUEST_TAKE_IMAGE = 0
 
   fun startAboutApp(activity: Activity) = with(activity) {
-    val styleColors = Colors(color(color.primaryColor), color(color.primaryDarkColor))
-    LibsBuilder()
-      .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
-      .withActivityColor(styleColors)
-      .withAboutIconShown(true)
-      .withAboutVersionShown(true)
-      .withAboutDescription(getString(R.string.msg_description))
-      .start(this)
+    val fragmentManager = (this as AppCompatActivity).supportFragmentManager
+    AboutDialog().show(fragmentManager, AboutDialog.TAG)
   }
 
   fun startPickImage(activity: Activity) = with(activity) {
@@ -43,7 +31,19 @@ object AppUtils {
       type = "image/*"
     }
     val str = getString(R.string.title_select_picture)
+    // android.app.SuperNotCalledException: Activity {android/com.android.internal.app.ChooserActivity} did not call through to super.onStop()
+    // just an emulator issue (http://qaru.site/questions/12400777/sharecompat-intentbuilder-crashing-every-time-on-android-4)
     startActivityForResult(Intent.createChooser(pickPhoto, str), REQUEST_TAKE_IMAGE)
+  }
+
+  fun openBrowser(activity: Activity, link: String) = with(activity) {
+    val url = if (!link.startsWith("http://") && !link.startsWith("https://")) {
+      "http://$link"
+    } else {
+      link
+    }
+    val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+    startActivity(browserIntent)
   }
 
   fun shareResultImgFile(activity: Activity, uri: Uri) = with(activity) {
@@ -65,30 +65,31 @@ object AppUtils {
         val rotation = manager.defaultDisplay.rotation
         val orientation = activity.resources.configuration.orientation
 
-        if (rotation == Surface.ROTATION_270) {
-          activity.requestedOrientation = if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-            ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-          } else {
-            ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
-          }
-        } else if (rotation == Surface.ROTATION_90) {
-          activity.requestedOrientation = if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-            ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
-          } else {
-            ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-          }
-        } else if (rotation == Surface.ROTATION_0) {
-          activity.requestedOrientation = if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-          } else {
-            ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-          }
-        } else {
-          activity.requestedOrientation = if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
-          } else {
-            ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
-          }
+        when (rotation) {
+          Surface.ROTATION_270 -> activity.requestedOrientation =
+            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+              ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+            } else {
+              ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
+            }
+          Surface.ROTATION_90 -> activity.requestedOrientation =
+            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+              ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
+            } else {
+              ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+            }
+          Surface.ROTATION_0 -> activity.requestedOrientation =
+            if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+              ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+            } else {
+              ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+            }
+          else -> activity.requestedOrientation =
+            if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+              ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
+            } else {
+              ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
+            }
         }
       }
     } catch (e: Exception) {

@@ -1,6 +1,5 @@
 package com.lndmflngs.colorizer.ui
 
-import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -52,7 +51,7 @@ abstract class BaseActivity : AppCompatActivity() {
     data: Intent?
   ) {
     super.onActivityResult(requestCode, resultCode, data)
-    if (requestCode == AppUtils.REQUEST_TAKE_IMAGE && resultCode == Activity.RESULT_OK) {
+    if (requestCode == AppUtils.REQUEST_TAKE_IMAGE && resultCode == AppCompatActivity.RESULT_OK) {
       val bitmap = getMediaBitmap(data?.data!!)
       handleImage(bitmap)
     }

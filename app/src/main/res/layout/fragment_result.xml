@@ -18,7 +18,7 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_gravity="center"
-      style="?android:attr/progressBarStyleLarge"
+      style="?android:attr/progressBarStyle"
       />
 
   <com.google.android.material.floatingactionbutton.FloatingActionButton

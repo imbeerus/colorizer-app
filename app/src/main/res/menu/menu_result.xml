@@ -5,7 +5,7 @@
       android:id="@+id/change"
       android:enabled="false"
       android:orderInCategory="1"
-      android:title="@string/action_change"
+      android:title="@string/action_open"
       app:showAsAction="never"
       />
   <item

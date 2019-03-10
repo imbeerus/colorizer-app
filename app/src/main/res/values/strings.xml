@@ -2,15 +2,18 @@
   <string name="app_name" translatable="false">Сolorizer</string>
   <string name="msg_open_photo">Tap anywhere to open a photo</string>
   <string name="msg_warning">This will take a some time to due algorithm initialization</string>
-  <string name="msg_description"><![CDATA[<div style="text-align:center;">Colorizes given black & white images<br><a href="https://github.com/lndmflngs/colorizer-app">Github page</a></div>]]></string>
+  <string name="msg_description">Colorizes given black and white images</string>
 
-  <string name="action_change">Change</string>
+  <string name="action_open">Open</string>
   <string name="action_save">Save</string>
   <string name="action_share">Share</string>
   <string name="action_about">About app</string>
+  <string name="action_open_source">Open source</string>
   <string name="title_select_picture">Select picture</string>
   <string name="title_share_via">Share via</string>
+  <string name="title_version">Version</string>
   <string name="description_open">Open photo icon</string>
+  <string name="description_app">App icon</string>
 
   <string name="file_provider_authority" translatable="false">com.lndmflngs.colorizer.fileprovider</string>
 </resources>
