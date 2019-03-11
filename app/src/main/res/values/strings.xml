@@ -5,7 +5,6 @@
   <string name="msg_description">Colorizes given black and white images</string>
 
   <string name="action_open">Open</string>
-  <string name="action_save">Save</string>
   <string name="action_share">Share</string>
   <string name="action_about">About app</string>
   <string name="action_open_source">Open source</string>
@@ -13,7 +12,6 @@
   <string name="title_share_via">Share via</string>
   <string name="title_version">Version</string>
   <string name="description_open">Open photo icon</string>
-  <string name="description_app">App icon</string>
 
   <string name="file_provider_authority" translatable="false">com.lndmflngs.colorizer.fileprovider</string>
 </resources>

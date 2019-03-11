@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="app_name">Сolorizer</string>
   <string name="title_share_via">Поделиться с помощью</string>
   <string name="title_select_picture">Выберите изображение</string>
   <string name="title_version">Версия</string>
@@ -8,9 +7,7 @@
   <string name="msg_open_photo">Нажмите в любом месте, чтобы октрыть фото</string>
   <string name="msg_description">Колоризация переданных черно-белых фото</string>
   <string name="description_open">Иконка открытия фото</string>
-  <string name="description_app">Иконка приложения</string>
   <string name="action_share">Поделиться</string>
-  <string name="action_save">Сохранить</string>
   <string name="action_open">Открыть</string>
   <string name="action_about">О нас</string>
   <string name="action_open_source">Исходный код</string>
