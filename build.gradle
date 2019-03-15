@@ -24,3 +24,26 @@ allprojects {
 task clean(type: Delete) {
   delete rootProject.buildDir
 }
+
+ext {
+  // Sdk and tools
+  minSdkVersion = 15
+  targetSdkVersion = 28
+  compileSdkVersion = 28
+
+  // App dependencies
+  androidXVersion = '1.1.0-alpha05'
+  androidXLegacySupport = '1.0.0'
+  androidXAnnotations = '1.0.1'
+  materialVersion = '1.1.0-alpha04'
+  appCompatVersion = '1.1.0-alpha03'
+  vectorDrawableVersion = '1.1.0-alpha01'
+
+  dagger2Version = '2.16'
+  rxJavaVersion  = '2.2.7'
+  rxAndroidVersion  = '2.1.1'
+  archLifecycleVersion = '2.1.0-alpha03'
+  algorithmiaVersion = '1.0.1'
+  calligraphyVersion = '3.1.0'
+  viewPumpVersion = '1.0.0'
+}

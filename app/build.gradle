@@ -2,23 +2,36 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply from: '../key.gradle'
 
 android {
-  compileSdkVersion 28
+  compileSdkVersion rootProject.compileSdkVersion
   defaultConfig {
     applicationId "com.lndmflngs.colorizer"
-    minSdkVersion 15
-    targetSdkVersion 28
+    minSdkVersion rootProject.minSdkVersion
+    targetSdkVersion rootProject.targetSdkVersion
     versionCode 7
     versionName "0.1.5"
     vectorDrawables.useSupportLibrary = true
   }
   buildTypes {
+    debug {
+      minifyEnabled true
+      shrinkResources true
+      applicationIdSuffix '.debug'
+      versionNameSuffix '-DEBUG'
+      proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+      buildConfigField("String", "API_KEY", "\"$apiKey\"")
+    }
     release {
       minifyEnabled true
       shrinkResources true
       proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+      buildConfigField("String", "API_KEY", "\"$apiKey\"")
     }
+  }
+  dataBinding {
+    enabled = true
   }
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_1_8
@@ -27,25 +40,36 @@ android {
 }
 
 dependencies {
-  implementation fileTree(dir: 'libs', include: ['*.jar'])
-  // kotlin
-  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-
-  // androidX
-  implementation 'androidx.appcompat:appcompat:1.0.2'
-  implementation "androidx.cardview:cardview:1.0.0"
-  implementation "androidx.recyclerview:recyclerview:1.0.0"
-  implementation 'androidx.core:core-ktx:1.0.1'
-  implementation 'com.google.android.material:material:1.1.0-alpha04'
+  // app dependencies
+  implementation "androidx.core:core-ktx:$androidXVersion"
+  implementation "androidx.appcompat:appcompat:$appCompatVersion"
+  implementation "androidx.vectordrawable:vectordrawable:$vectorDrawableVersion"
+  implementation "com.google.android.material:material:$materialVersion"
+  implementation "androidx.annotation:annotation:$androidXAnnotations"
 
   // reactive
-  implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
-  implementation 'io.reactivex.rxjava2:rxjava:2.2.7'
+  implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
+  implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
+
+  // dependency injection
+  implementation "com.google.dagger:dagger:$dagger2Version"
+  kapt "com.google.dagger:dagger-compiler:$dagger2Version"
+  implementation "com.google.dagger:dagger-android-support:$dagger2Version"
+  kapt "com.google.dagger:dagger-android-processor:$dagger2Version"
+
+  // lifecycle components
+  implementation "androidx.lifecycle:lifecycle-extensions:$archLifecycleVersion"
+  implementation "androidx.lifecycle:lifecycle-runtime:$archLifecycleVersion"
+  kapt "androidx.lifecycle:lifecycle-compiler:$archLifecycleVersion"
 
   // algorithmia
-  implementation 'com.algorithmia:algorithmia-android:1.0.1'
+  implementation "com.algorithmia:algorithmia-android:$algorithmiaVersion"
 
-  // glide - image loading and caching library
+  // font
+  implementation "io.github.inflationx:calligraphy3:$calligraphyVersion"
+  implementation "io.github.inflationx:viewpump:$viewPumpVersion"
+
+  // glide
   implementation 'com.github.bumptech.glide:glide:4.9.0'
   kapt 'com.github.bumptech.glide:compiler:4.9.0'
 }
