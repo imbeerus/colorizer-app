@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
 import com.lndmflngs.colorizer.extensions.DelegatesExt
 
+// TODO: upload new screenshots
 class App : Application() {
 
   companion object {

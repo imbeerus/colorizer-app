@@ -10,8 +10,8 @@ android {
     applicationId "com.lndmflngs.colorizer"
     minSdkVersion rootProject.minSdkVersion
     targetSdkVersion rootProject.targetSdkVersion
-    versionCode 7
-    versionName "0.1.5"
+    versionCode 8
+    versionName "0.2.0"
     vectorDrawables.useSupportLibrary = true
   }
   buildTypes {
