@@ -31,7 +31,7 @@ class ResultFragment : Fragment() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    algoClient = AlgoClient.getInstance(getString(R.string.algorithmia_api_key))
+    algoClient = AlgoClient.getInstance("") // TODO: add api key
     setHasOptionsMenu(true)
   }
 
