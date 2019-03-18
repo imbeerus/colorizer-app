@@ -13,6 +13,7 @@ android {
     versionCode 8
     versionName "0.2.0"
     vectorDrawables.useSupportLibrary = true
+    buildConfigField("String", "API_KEY", "\"$apiKey\"")
   }
   buildTypes {
     debug {
@@ -21,13 +22,12 @@ android {
       applicationIdSuffix '.debug'
       versionNameSuffix '-DEBUG'
       proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-      buildConfigField("String", "API_KEY", "\"$apiKey\"")
     }
     release {
       minifyEnabled true
       shrinkResources true
       proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-      buildConfigField("String", "API_KEY", "\"$apiKey\"")
+
     }
   }
   dataBinding {
@@ -70,6 +70,6 @@ dependencies {
   implementation "io.github.inflationx:viewpump:$viewPumpVersion"
 
   // glide
-  implementation 'com.github.bumptech.glide:glide:4.9.0'
-  kapt 'com.github.bumptech.glide:compiler:4.9.0'
+  implementation "com.github.bumptech.glide:glide:$glideVersion"
+  kapt "com.github.bumptech.glide:compiler:$glideVersion"
 }

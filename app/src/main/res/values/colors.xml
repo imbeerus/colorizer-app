@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <color name="primaryColor">#4a148c</color>
-  <color name="primaryDarkColor">#12005e</color>
-  <color name="secondaryColor">#ff80ab</color>
+  <color name="primary">@color/violet</color>
+  <color name="primary_dark">@color/blue</color>
+  <color name="secondary">@color/pink</color>
+
+  <color name="violet">#4a148c</color>
+  <color name="blue">#12005e</color>
+  <color name="pink">#ff80ab</color>
 </resources>

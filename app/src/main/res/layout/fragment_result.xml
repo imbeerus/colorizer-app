@@ -1,33 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/rootView"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     >
 
-  <include
-      layout="@layout/include_result"
-      android:id="@+id/resultView"
-      android:visibility="gone"
-      />
+  <data>
 
-  <ProgressBar
-      android:id="@+id/progressBar"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_gravity="center"
-      style="?android:attr/progressBarStyle"
-      />
+    <variable
+        name="viewModel"
+        type="com.lndmflngs.colorizer.ui.main.result.ResultViewModel" />
+  </data>
 
-  <com.google.android.material.floatingactionbutton.FloatingActionButton
-      android:id="@+id/fab"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_gravity="end|bottom"
-      android:layout_margin="@dimen/fab_margin"
-      android:visibility="gone"
-      app:srcCompat="@drawable/ic_share"
-      />
-</FrameLayout>
+  <FrameLayout
+      android:id="@+id/rootView"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      >
+
+    <include
+        layout="@layout/include_result"
+        android:id="@+id/resultView"
+        android:visibility="gone"
+        />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        style="?android:attr/progressBarStyle"
+        />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="@dimen/fab_margin"
+        android:visibility="gone"
+        app:srcCompat="@drawable/ic_share"
+        />
+  </FrameLayout>
+</layout>

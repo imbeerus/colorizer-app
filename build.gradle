@@ -27,7 +27,7 @@ task clean(type: Delete) {
 
 ext {
   // Sdk and tools
-  minSdkVersion = 15
+  minSdkVersion = 16
   targetSdkVersion = 28
   compileSdkVersion = 28
 
@@ -46,4 +46,5 @@ ext {
   algorithmiaVersion = '1.0.1'
   calligraphyVersion = '3.1.0'
   viewPumpVersion = '1.0.0'
+  glideVersion = '4.9.0'
 }
