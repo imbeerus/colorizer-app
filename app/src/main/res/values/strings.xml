@@ -12,6 +12,7 @@
   <string name="title_share_via">Share via</string>
   <string name="title_version">Version</string>
   <string name="description_open">Open photo icon</string>
+  <string name="description_result">Colored image</string>
 
   <string name="file_provider_authority" translatable="false">com.lndmflngs.colorizer.fileprovider</string>
 </resources>

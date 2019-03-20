@@ -8,13 +8,15 @@ import com.lndmflngs.colorizer.BuildConfig
 import com.lndmflngs.colorizer.R
 import com.lndmflngs.colorizer.data.DataManager
 import com.lndmflngs.colorizer.data.DataManagerHelper
-import com.lndmflngs.colorizer.data.local.FileManager
-import com.lndmflngs.colorizer.data.local.FileManagerHelper
-import com.lndmflngs.colorizer.data.local.GlideHelper
-import com.lndmflngs.colorizer.data.local.GlideLoader
+import com.lndmflngs.colorizer.data.GlideHelper
+import com.lndmflngs.colorizer.data.GlideLoader
+import com.lndmflngs.colorizer.data.local.ImageManager
+import com.lndmflngs.colorizer.data.local.ImageManagerHelper
 import com.lndmflngs.colorizer.data.remote.ApiClient
 import com.lndmflngs.colorizer.data.remote.ApiClientHelper
+import com.lndmflngs.colorizer.data.remote.ApiConstants
 import com.lndmflngs.colorizer.di.ApiKey
+import com.lndmflngs.colorizer.di.ImageDefFormat
 import dagger.Module
 import dagger.Provides
 import io.github.inflationx.calligraphy3.CalligraphyConfig
@@ -64,12 +66,18 @@ class AppModule {
     return BuildConfig.API_KEY
   }
 
-  // FileManager
+  // ImageManager
 
   @Provides
   @Singleton
-  internal fun provideFileManagerHelper(fileManager: FileManager): FileManagerHelper {
-    return fileManager
+  internal fun provideImageManagerHelper(imageManager: ImageManager): ImageManagerHelper {
+    return imageManager
+  }
+
+  @Provides
+  @ImageDefFormat
+  internal fun provideDefImageFormat(): String {
+    return ApiConstants.DEF_IMG_FORMAT
   }
 
   // Glide

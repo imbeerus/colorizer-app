@@ -1,4 +1,4 @@
-package com.lndmflngs.colorizer.data.local
+package com.lndmflngs.colorizer.data
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -30,7 +30,7 @@ constructor(
   private val context: Context
 ) : GlideHelper {
 
-  private val TAG = "GlideUtils"
+  private val TAG = "GlideLoader"
 
   override fun loadImageAsync(
     futureTarget: FutureTarget<Bitmap>,

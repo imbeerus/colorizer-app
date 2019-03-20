@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.os.PersistableBundle
+import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -24,7 +25,7 @@ abstract class BaseActivity<T : ViewDataBinding, V : BaseViewModel<*>> : AppComp
   @get:LayoutRes
   abstract val layoutId: Int
 
-  @get:LayoutRes
+  @get:IdRes
   abstract val containerLayoutId: Int
 
   abstract val viewModel: V
@@ -34,10 +35,6 @@ abstract class BaseActivity<T : ViewDataBinding, V : BaseViewModel<*>> : AppComp
     window.setBackgroundDrawableResource(android.R.drawable.screen_background_light)
     super.onCreate(savedInstanceState)
     performDataBinding()
-  }
-
-  override fun attachBaseContext(newBase: Context) {
-    super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase))
   }
 
   override fun onFragmentAttached() = Unit

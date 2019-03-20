@@ -1,4 +1,4 @@
-package com.lndmflngs.colorizer.ui.main.about
+package com.lndmflngs.colorizer.ui.about
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -4,6 +4,7 @@ import com.algorithmia.Algorithmia
 import com.google.gson.Gson
 import com.lndmflngs.colorizer.data.model.api.ImageResponse
 import com.lndmflngs.colorizer.di.ApiKey
+import com.lndmflngs.colorizer.di.ImageDefFormat
 import io.reactivex.Single
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -22,7 +23,8 @@ interface ApiClientHelper {
 class ApiClient @Inject
 constructor(
   private val gson: Gson,
-  @ApiKey private val apiKey: String
+  @ApiKey private val apiKey: String,
+  @ImageDefFormat private val imageFormat: String
 ) : ApiClientHelper {
 
   private val algoClient by lazy { Algorithmia.client(apiKey) }
@@ -68,7 +70,7 @@ constructor(
 
   private fun fetchInputImagePath(byteArray: ByteArray): String {
     val imageDir = algoClient.dir(ApiConstants.HOSTED_DATA_PATH)
-    val fileName = "${System.currentTimeMillis()}.${ApiConstants.DEF_IMG_FORMAT}"
+    val fileName = "${System.currentTimeMillis()}.$imageFormat"
     imageDir.file(fileName).put(byteArray) //  Upload byteArray to Algorithmia's hosted data
     return imageDir.file(fileName).toString() // Fetch path of uploaded bw image
   }

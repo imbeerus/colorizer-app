@@ -1,4 +1,4 @@
-package com.lndmflngs.colorizer.ui.main.about
+package com.lndmflngs.colorizer.ui.about
 
 import com.lndmflngs.colorizer.data.DataManager
 import com.lndmflngs.colorizer.ui.base.BaseViewModel

@@ -1,4 +1,4 @@
-package com.lndmflngs.colorizer.ui.main.open
+package com.lndmflngs.colorizer.ui.open
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector

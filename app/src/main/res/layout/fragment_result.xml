@@ -4,10 +4,11 @@
     >
 
   <data>
-
+    <import type="android.view.View"/>
     <variable
         name="viewModel"
-        type="com.lndmflngs.colorizer.ui.main.result.ResultViewModel" />
+        type="com.lndmflngs.colorizer.ui.result.ResultViewModel"
+        />
   </data>
 
   <FrameLayout
@@ -16,10 +17,13 @@
       android:layout_height="match_parent"
       >
 
-    <include
-        layout="@layout/include_result"
-        android:id="@+id/resultView"
-        android:visibility="gone"
+    <ImageView
+        android:id="@+id/resultImageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:contentDescription="@string/description_result"
+        android:visibility="@{viewModel.isLoading ? View.GONE : View.VISIBLE}"
         />
 
     <ProgressBar
@@ -27,6 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}"
         style="?android:attr/progressBarStyle"
         />
 
@@ -36,8 +41,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="@dimen/fab_margin"
-        android:visibility="gone"
+        android:onClick="@{() -> viewModel.shareImage()}"
+        android:visibility="@{viewModel.isLoading ? View.GONE : View.VISIBLE}"
         app:srcCompat="@drawable/ic_share"
         />
   </FrameLayout>
+
 </layout>

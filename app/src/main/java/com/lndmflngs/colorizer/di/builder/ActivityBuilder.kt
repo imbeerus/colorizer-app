@@ -1,9 +1,9 @@
 package com.lndmflngs.colorizer.di.builder
 
 import com.lndmflngs.colorizer.ui.main.MainActivity
-import com.lndmflngs.colorizer.ui.main.about.AboutDialogProvider
-import com.lndmflngs.colorizer.ui.main.open.OpenFragmentProvider
-import com.lndmflngs.colorizer.ui.main.result.ResultFragmentProvider
+import com.lndmflngs.colorizer.ui.about.AboutDialogProvider
+import com.lndmflngs.colorizer.ui.open.OpenFragmentProvider
+import com.lndmflngs.colorizer.ui.result.ResultFragmentProvider
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

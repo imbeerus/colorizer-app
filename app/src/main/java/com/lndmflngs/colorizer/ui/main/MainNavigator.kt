@@ -2,6 +2,8 @@ package com.lndmflngs.colorizer.ui.main
 
 interface MainNavigator {
 
+  fun handleIntent(homeScreenStart: () -> Unit)
+
   fun showOpenFragment()
 
   fun showResultFragment()
