@@ -8,7 +8,7 @@ interface ResultNavigator {
 
   fun startShareImage(uri: Uri)
 
-  fun updateMenu()
+  fun showResult()
 
   fun handleError(throwable: Throwable)
 

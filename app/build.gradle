@@ -65,10 +65,6 @@ dependencies {
   // algorithmia
   implementation "com.algorithmia:algorithmia-android:$algorithmiaVersion"
 
-  // font
-  implementation "io.github.inflationx:calligraphy3:$calligraphyVersion"
-  implementation "io.github.inflationx:viewpump:$viewPumpVersion"
-
   // glide
   implementation "com.github.bumptech.glide:glide:$glideVersion"
   kapt "com.github.bumptech.glide:compiler:$glideVersion"

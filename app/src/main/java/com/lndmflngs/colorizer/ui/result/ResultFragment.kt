@@ -3,16 +3,20 @@ package com.lndmflngs.colorizer.ui.result
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.library.baseAdapters.BR
 import com.lndmflngs.colorizer.R
 import com.lndmflngs.colorizer.ViewModelProviderFactory
 import com.lndmflngs.colorizer.databinding.FragmentResultBinding
 import com.lndmflngs.colorizer.extensions.getViewModel
+import com.lndmflngs.colorizer.extensions.lockOrientation
 import com.lndmflngs.colorizer.extensions.startPickImage
+import com.lndmflngs.colorizer.extensions.unlockOrientation
 import com.lndmflngs.colorizer.ui.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_result.view.resultImageView
 import javax.inject.Inject
@@ -31,6 +35,8 @@ class ResultFragment : BaseFragment<FragmentResultBinding, ResultViewModel>(), R
 
   private val menuItems = arrayOf(R.id.change, R.id.share)
 
+  private lateinit var imageView: ImageView
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     viewModel.navigator = this
@@ -38,7 +44,18 @@ class ResultFragment : BaseFragment<FragmentResultBinding, ResultViewModel>(), R
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-    viewModel.imageView = viewDataBinding.root.resultImageView
+    viewDataBinding.root.resultImageView.apply {
+      imageView = this
+      viewModel.imageView = this
+    }
+    (activity as AppCompatActivity).lockOrientation()
+//    if (savedInstanceState != null) {
+//      resultImgSource = savedInstanceState.getString(BUNDLE_RESULT_IMG_SOURCE)!!
+//      showColoredResult()
+//    } else {
+    val byteArray = arguments?.getByteArray(ARGUMENT_PICKED_IMG)!!
+    viewModel.sendImageToColorize(byteArray)
+//    }
   }
 
   override fun onPrepareOptionsMenu(menu: Menu) {
@@ -72,12 +89,14 @@ class ResultFragment : BaseFragment<FragmentResultBinding, ResultViewModel>(), R
     startActivity(Intent.createChooser(shareIntent, getString(R.string.title_share_via)))
   }
 
-  override fun updateMenu() {
-    activity?.invalidateOptionsMenu()
+  override fun showResult() {
+    (activity as AppCompatActivity).unlockOrientation()
+    activity?.invalidateOptionsMenu() // update menu states
+    viewModel.dataManager.loadImage(viewModel.resultImageSource, imageView)
   }
 
   override fun handleError(throwable: Throwable) {
-    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    Log.d(TAG, throwable.message)
   }
 
   companion object {

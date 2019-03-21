@@ -2,10 +2,8 @@ package com.lndmflngs.colorizer.di.module
 
 import android.app.Application
 import android.content.Context
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
+import android.graphics.Bitmap.CompressFormat
 import com.lndmflngs.colorizer.BuildConfig
-import com.lndmflngs.colorizer.R
 import com.lndmflngs.colorizer.data.DataManager
 import com.lndmflngs.colorizer.data.DataManagerHelper
 import com.lndmflngs.colorizer.data.GlideHelper
@@ -16,10 +14,11 @@ import com.lndmflngs.colorizer.data.remote.ApiClient
 import com.lndmflngs.colorizer.data.remote.ApiClientHelper
 import com.lndmflngs.colorizer.data.remote.ApiConstants
 import com.lndmflngs.colorizer.di.ApiKey
+import com.lndmflngs.colorizer.di.ImageDefCompressFormat
 import com.lndmflngs.colorizer.di.ImageDefFormat
+import com.lndmflngs.colorizer.di.ImageDefQuality
 import dagger.Module
 import dagger.Provides
-import io.github.inflationx.calligraphy3.CalligraphyConfig
 import javax.inject.Singleton
 
 @Module
@@ -37,27 +36,12 @@ class AppModule {
     return dataManager
   }
 
-  @Provides
-  @Singleton
-  internal fun provideCalligraphyDefaultConfig(): CalligraphyConfig {
-    return CalligraphyConfig.Builder()
-      .setDefaultFontPath("fonts/Roboto-Regular.ttf")
-      .setFontAttrId(R.attr.fontPath)
-      .build()
-  }
-
   // ApiClient
 
   @Provides
   @Singleton
   internal fun provideApiClientHelper(apiClient: ApiClient): ApiClientHelper {
     return apiClient
-  }
-
-  @Provides
-  @Singleton
-  fun provideGson(): Gson {
-    return GsonBuilder().excludeFieldsWithoutExposeAnnotation().create()
   }
 
   @Provides
@@ -75,9 +59,21 @@ class AppModule {
   }
 
   @Provides
+  @ImageDefCompressFormat
+  internal fun provideImageDefCompressFormat(): CompressFormat {
+    return ApiConstants.IMAGE_DEF_COMPRESS_FORMAT
+  }
+
+  @Provides
   @ImageDefFormat
-  internal fun provideDefImageFormat(): String {
-    return ApiConstants.DEF_IMG_FORMAT
+  internal fun provideImageDefFormat(): String {
+    return ApiConstants.IMAGE_DEF_FORMAT
+  }
+
+  @Provides
+  @ImageDefQuality
+  internal fun provideImageDefQuality(): Int {
+    return ApiConstants.IMAGE_DEF_QUALITY
   }
 
   // Glide

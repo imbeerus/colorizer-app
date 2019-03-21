@@ -7,6 +7,10 @@ import android.content.res.Configuration
 import android.util.Log
 import android.view.Surface
 import android.view.WindowManager
+import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
+import androidx.core.content.res.ResourcesCompat
+import com.lndmflngs.colorizer.R
 
 private var prevOrientation = -10
 

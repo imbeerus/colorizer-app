@@ -6,6 +6,11 @@
     <item name="colorAccent">@color/secondary</item>
     <item name="android:navigationBarColor" tools:targetApi="lollipop">@color/primary_dark</item>
     <item name="actionOverflowButtonStyle">@style/AppTheme.OverflowButtonStyle</item>
+    <item name="android:fontFamily">@font/roboto</item>
+  </style>
+
+  <style name="TextAppearance.RobotoMedium" parent="AppTheme">
+    <item name="android:fontFamily">@font/roboto_medium</item>
   </style>
 
   <style name="AppTheme.Splash" parent="AppTheme">

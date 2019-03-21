@@ -11,7 +11,9 @@ import android.provider.MediaStore
 import android.widget.ImageView
 import androidx.core.content.FileProvider
 import com.lndmflngs.colorizer.R
+import com.lndmflngs.colorizer.di.ImageDefCompressFormat
 import com.lndmflngs.colorizer.di.ImageDefFormat
+import com.lndmflngs.colorizer.di.ImageDefQuality
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -21,27 +23,25 @@ import javax.inject.Singleton
 
 interface ImageManagerHelper {
 
-  fun bitmapToByteArray(
-    bitmap: Bitmap,
-    format: CompressFormat = CompressFormat.PNG,
-    quality: Int = 100
-  ): ByteArray
+  fun bitmapToByteArray(bitmap: Bitmap): ByteArray
 
   fun getMediaBitmap(uri: Uri): Bitmap
 
-  fun getImageBitmapUri(imageView: ImageView, uri: Uri): Uri?
+  fun getImageBitmapUri(imageView: ImageView): Uri?
 }
 
 @Singleton
 class ImageManager @Inject
 constructor(
   private val context: Context,
-  @ImageDefFormat private val imageFormat: String
+  @ImageDefFormat private val defFormat: String,
+  @ImageDefCompressFormat private val defCompressFormat: CompressFormat,
+  @ImageDefQuality private val quality: Int
 ) : ImageManagerHelper {
 
-  override fun bitmapToByteArray(bitmap: Bitmap, format: CompressFormat, quality: Int): ByteArray {
+  override fun bitmapToByteArray(bitmap: Bitmap): ByteArray {
     val byteArrayOutputStream = ByteArrayOutputStream()
-    bitmap.compress(format, quality, byteArrayOutputStream)
+    bitmap.compress(defCompressFormat, quality, byteArrayOutputStream)
     return byteArrayOutputStream.toByteArray()
   }
 
@@ -49,8 +49,8 @@ constructor(
     return MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
   }
 
-  override fun getImageBitmapUri(imageView: ImageView, uri: Uri): Uri? {
-// Extract Bitmap from ImageView drawable
+  override fun getImageBitmapUri(imageView: ImageView): Uri? {
+    // Extract Bitmap from ImageView drawable
     val drawable = imageView.drawable
     val bmp = if (drawable is BitmapDrawable) {
       (imageView.drawable as BitmapDrawable).bitmap
@@ -62,10 +62,10 @@ constructor(
       val file =
         File(
           context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
-          "${System.currentTimeMillis()}.$imageFormat"
+          "${System.currentTimeMillis()}.$defFormat"
         )
       val out = FileOutputStream(file)
-      bmp!!.compress(Bitmap.CompressFormat.PNG, 100, out)
+      bmp!!.compress(defCompressFormat, quality, out)
       out.close()
       return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
         FileProvider.getUriForFile(

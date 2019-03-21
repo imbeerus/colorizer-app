@@ -1,7 +1,6 @@
 package com.lndmflngs.colorizer.data
 
 import android.graphics.Bitmap
-import android.graphics.Bitmap.CompressFormat
 import android.net.Uri
 import android.widget.ImageView
 import com.bumptech.glide.request.FutureTarget
@@ -23,12 +22,8 @@ constructor(
   private val glideLoader: GlideHelper
 ) : DataManagerHelper {
 
-  override fun doColorizeImageRequest(input: String): Single<ImageResponse> {
-    return apiClient.doColorizeImageRequest(input)
-  }
-
-  override fun doColorizeImage(input: ByteArray): Single<ImageResponse> {
-    return apiClient.doColorizeImage(input)
+  override fun colorizeImageRequest(input: ByteArray): Single<ImageResponse> {
+    return apiClient.colorizeImageRequest(input)
   }
 
   override fun fetchResultImagePath(output: String): Single<String> {
@@ -43,6 +38,10 @@ constructor(
     return glideLoader.handleImageBitmap(futureTarget)
   }
 
+  override fun loadImage(source: String, imageView: ImageView) {
+    return glideLoader.loadImage(source, imageView)
+  }
+
   override fun loadImageAsync(
     futureTarget: FutureTarget<Bitmap>,
     onSuccess: (Bitmap) -> Unit
@@ -50,16 +49,16 @@ constructor(
     return glideLoader.loadImageAsync(futureTarget, onSuccess)
   }
 
-  override fun bitmapToByteArray(bitmap: Bitmap, format: CompressFormat, quality: Int): ByteArray {
-    return imageManager.bitmapToByteArray(bitmap, format, quality)
+  override fun bitmapToByteArray(bitmap: Bitmap): ByteArray {
+    return imageManager.bitmapToByteArray(bitmap)
   }
 
   override fun getMediaBitmap(uri: Uri): Bitmap {
     return imageManager.getMediaBitmap(uri)
   }
 
-  override fun getImageBitmapUri(imageView: ImageView, uri: Uri): Uri? {
-    return imageManager.getImageBitmapUri(imageView, uri)
+  override fun getImageBitmapUri(imageView: ImageView): Uri? {
+    return imageManager.getImageBitmapUri(imageView)
   }
 
 }

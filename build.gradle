@@ -44,7 +44,5 @@ ext {
   rxAndroidVersion  = '2.1.1'
   archLifecycleVersion = '2.1.0-alpha03'
   algorithmiaVersion = '1.0.1'
-  calligraphyVersion = '3.1.0'
-  viewPumpVersion = '1.0.0'
   glideVersion = '4.9.0'
 }

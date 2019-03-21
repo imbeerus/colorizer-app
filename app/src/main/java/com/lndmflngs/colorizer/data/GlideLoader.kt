@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Log
+import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.FutureTarget
 import io.reactivex.Single
@@ -13,6 +14,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 interface GlideHelper {
+
+  fun loadImage(source: String, imageView: ImageView)
 
   fun loadImageAsync(
     futureTarget: FutureTarget<Bitmap>,
@@ -31,6 +34,10 @@ constructor(
 ) : GlideHelper {
 
   private val TAG = "GlideLoader"
+
+  override fun loadImage(source: String, imageView: ImageView) {
+    Glide.with(context).load(source).fitCenter().into(imageView)
+  }
 
   override fun loadImageAsync(
     futureTarget: FutureTarget<Bitmap>,

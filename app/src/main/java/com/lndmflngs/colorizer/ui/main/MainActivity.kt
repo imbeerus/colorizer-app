@@ -92,8 +92,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(),
   }
 
   override fun showResultFragment() {
-    val byteArray = viewModel.imageData.value
-    byteArray?.let { replaceFragment(ResultFragment.newInstance(byteArray), ResultFragment.TAG) }
+    replaceFragment(ResultFragment.newInstance(viewModel.imageToColorize), ResultFragment.TAG)
   }
 
   override fun handleError(throwable: Throwable) {
@@ -101,9 +100,11 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(),
   }
 
   private fun setupLayout() {
-    val toolbar = viewDataBinding.appbar.toolbar
     viewModel.title.set(getString(R.string.app_name))
-    setSupportActionBar(toolbar)
+    viewDataBinding.appbar.toolbar.apply {
+      setSupportActionBar(this)
+      setTitleTextAppearance(this@MainActivity, R.style.TextAppearance_RobotoMedium)
+    }
   }
 
   companion object {
