@@ -3,6 +3,8 @@ package com.lndmflngs.colorizer.ui.main
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.library.baseAdapters.BR
 import androidx.fragment.app.Fragment
@@ -47,32 +49,26 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(),
     }
   }
 
+  override fun onCreateOptionsMenu(menu: Menu): Boolean {
+    menuInflater.inflate(R.menu.menu_main, menu)
+    return super.onCreateOptionsMenu(menu)
+  }
+
+  override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    return when (item.itemId) {
+      R.id.about_app -> {
+        showAboutDialog()
+        true
+      }
+      else -> super.onOptionsItemSelected(item)
+    }
+  }
+
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
     super.onActivityResult(requestCode, resultCode, data)
     if (requestCode == REQUEST_TAKE_IMAGE && resultCode == AppCompatActivity.RESULT_OK) {
       val bitmap = viewModel.dataManager.getMediaBitmap(data?.data!!)
       viewModel.handleImage(bitmap)
-    }
-  }
-
-  override fun onBackPressed() {
-    val currentFragment = supportFragmentManager.findFragmentById(containerLayoutId)
-    if (currentFragment == null || currentFragment.tag == OpenFragment.TAG) {
-      super.onBackPressed()
-    } else {
-      onFragmentDetached(ResultFragment.TAG)
-    }
-  }
-
-  override fun onFragmentDetached(tag: String) {
-    super.onFragmentDetached(tag)
-    val fragment = supportFragmentManager.findFragmentByTag(tag)
-    if (fragment != null) {
-      supportFragmentManager
-        .beginTransaction()
-        .disallowAddToBackStack()
-        .remove(fragment)
-        .commitNow()
     }
   }
 
@@ -87,24 +83,17 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(),
     }
   }
 
+  override fun showAboutDialog() {
+    // TODO: about
+  }
+
   override fun showOpenFragment() {
-    supportFragmentManager
-      .beginTransaction()
-      .disallowAddToBackStack()
-      .add(containerLayoutId, OpenFragment.newInstance(), OpenFragment.TAG)
-      .commit()
+    replaceFragment(OpenFragment.newInstance(), OpenFragment.TAG)
   }
 
   override fun showResultFragment() {
     val byteArray = viewModel.imageData.value
-    if (byteArray != null) {
-      supportFragmentManager
-        .beginTransaction()
-        .disallowAddToBackStack()
-        .add(containerLayoutId, ResultFragment.newInstance(byteArray), ResultFragment.TAG)
-        .commit()
-    }
-    onFragmentDetached(OpenFragment.TAG)
+    byteArray?.let { replaceFragment(ResultFragment.newInstance(byteArray), ResultFragment.TAG) }
   }
 
   override fun handleError(throwable: Throwable) {

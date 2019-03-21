@@ -1,18 +1,17 @@
 package com.lndmflngs.colorizer.ui.base
 
 import android.annotation.TargetApi
-import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.Fragment
+import com.lndmflngs.colorizer.extensions.transact
 import dagger.android.AndroidInjection
-import io.github.inflationx.viewpump.ViewPumpContextWrapper
 
 abstract class BaseActivity<T : ViewDataBinding, V : BaseViewModel<*>> : AppCompatActivity(),
   BaseFragment.Callback {
@@ -41,6 +40,9 @@ abstract class BaseActivity<T : ViewDataBinding, V : BaseViewModel<*>> : AppComp
 
   override fun onFragmentDetached(tag: String) = Unit
 
+  fun replaceFragment(fragment: Fragment, tag: String) =
+    supportFragmentManager.transact { replace(containerLayoutId, fragment, tag) }
+
   @TargetApi(Build.VERSION_CODES.M)
   fun hasPermission(permission: String): Boolean {
     return Build.VERSION.SDK_INT < Build.VERSION_CODES.M || checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
@@ -60,4 +62,5 @@ abstract class BaseActivity<T : ViewDataBinding, V : BaseViewModel<*>> : AppComp
       executePendingBindings()
     }
   }
+
 }

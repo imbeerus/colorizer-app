@@ -6,11 +6,13 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.library.baseAdapters.BR
 import com.lndmflngs.colorizer.R
 import com.lndmflngs.colorizer.ViewModelProviderFactory
 import com.lndmflngs.colorizer.databinding.FragmentResultBinding
 import com.lndmflngs.colorizer.extensions.getViewModel
+import com.lndmflngs.colorizer.extensions.startPickImage
 import com.lndmflngs.colorizer.ui.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_result.view.resultImageView
 import javax.inject.Inject
@@ -59,7 +61,7 @@ class ResultFragment : BaseFragment<FragmentResultBinding, ResultViewModel>(), R
   }
 
   override fun startPickImage() {
-
+    (activity as AppCompatActivity).startPickImage()
   }
 
   override fun startShareImage(uri: Uri) {
