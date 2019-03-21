@@ -13,7 +13,6 @@ class ResultViewModel(dataManager: DataManager) : BaseViewModel<ResultNavigator>
 
   lateinit var imageView: ImageView
   lateinit var resultImageSource: String
-  private set
 
   fun sendImageToColorize(byteArray: ByteArray) {
     setIsLoading(true)

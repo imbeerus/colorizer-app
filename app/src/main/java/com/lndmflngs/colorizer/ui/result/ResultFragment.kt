@@ -49,13 +49,18 @@ class ResultFragment : BaseFragment<FragmentResultBinding, ResultViewModel>(), R
       viewModel.imageView = this
     }
     (activity as AppCompatActivity).lockOrientation()
-//    if (savedInstanceState != null) {
-//      resultImgSource = savedInstanceState.getString(BUNDLE_RESULT_IMG_SOURCE)!!
-//      showColoredResult()
-//    } else {
-    val byteArray = arguments?.getByteArray(ARGUMENT_PICKED_IMG)!!
-    viewModel.sendImageToColorize(byteArray)
-//    }
+    if (savedInstanceState != null) {
+      viewModel.resultImageSource = savedInstanceState.getString(BUNDLE_RESULT_IMG_SOURCE)!!
+      showResult()
+    } else {
+      val byteArray = arguments?.getByteArray(ARGUMENT_PICKED_IMG)!!
+      viewModel.sendImageToColorize(byteArray)
+    }
+  }
+
+  override fun onSaveInstanceState(outState: Bundle) {
+    outState.putString(BUNDLE_RESULT_IMG_SOURCE, viewModel.resultImageSource)
+    super.onSaveInstanceState(outState)
   }
 
   override fun onPrepareOptionsMenu(menu: Menu) {
@@ -103,6 +108,7 @@ class ResultFragment : BaseFragment<FragmentResultBinding, ResultViewModel>(), R
     const val TAG = "ResultFragment"
 
     private const val ARGUMENT_PICKED_IMG = "ResultFragment:img"
+    private const val BUNDLE_RESULT_IMG_SOURCE = "ResultFragment:resultSrc"
 
     fun newInstance(imgData: ByteArray): ResultFragment {
       val fragment = ResultFragment()
