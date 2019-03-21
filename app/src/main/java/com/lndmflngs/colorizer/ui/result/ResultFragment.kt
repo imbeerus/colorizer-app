@@ -9,19 +9,19 @@ import android.view.View
 import androidx.databinding.library.baseAdapters.BR
 import com.lndmflngs.colorizer.R
 import com.lndmflngs.colorizer.ViewModelProviderFactory
-import com.lndmflngs.colorizer.databinding.FragmentOpenBinding
+import com.lndmflngs.colorizer.databinding.FragmentResultBinding
 import com.lndmflngs.colorizer.extensions.getViewModel
 import com.lndmflngs.colorizer.ui.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_result.view.resultImageView
 import javax.inject.Inject
 
-class ResultFragment : BaseFragment<FragmentOpenBinding, ResultViewModel>(), ResultNavigator {
+class ResultFragment : BaseFragment<FragmentResultBinding, ResultViewModel>(), ResultNavigator {
 
   @Inject
   lateinit var factory: ViewModelProviderFactory
 
   override val bindingVariable: Int = BR.viewModel
-  override val layoutId: Int = R.layout.fragment_open
+  override val layoutId: Int = R.layout.fragment_result
   override val viewModel: ResultViewModel by lazy { getViewModel<ResultViewModel>(factory) }
 
   override val hasOptionMenu: Boolean = true
@@ -59,7 +59,7 @@ class ResultFragment : BaseFragment<FragmentOpenBinding, ResultViewModel>(), Res
   }
 
   override fun startPickImage() {
-//    activity?.pickImage()
+
   }
 
   override fun startShareImage(uri: Uri) {
