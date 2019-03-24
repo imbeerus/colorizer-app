@@ -15,8 +15,6 @@ import javax.inject.Singleton
 
 interface GlideHelper {
 
-  fun loadImage(source: String, imageView: ImageView)
-
   fun loadImageAsync(
     futureTarget: FutureTarget<Bitmap>,
     onSuccess: (Bitmap) -> Unit
@@ -34,10 +32,6 @@ constructor(
 ) : GlideHelper {
 
   private val TAG = "GlideLoader"
-
-  override fun loadImage(source: String, imageView: ImageView) {
-    Glide.with(context).load(source).fitCenter().into(imageView)
-  }
 
   override fun loadImageAsync(
     futureTarget: FutureTarget<Bitmap>,

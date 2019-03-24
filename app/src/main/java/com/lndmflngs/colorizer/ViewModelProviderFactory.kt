@@ -1,13 +1,13 @@
 package com.lndmflngs.colorizer
 
-import com.lndmflngs.colorizer.ui.main.MainViewModel
 import androidx.lifecycle.ViewModel
-import com.lndmflngs.colorizer.data.DataManager
-import javax.inject.Inject
 import androidx.lifecycle.ViewModelProvider
+import com.lndmflngs.colorizer.data.DataManager
 import com.lndmflngs.colorizer.ui.about.AboutViewModel
+import com.lndmflngs.colorizer.ui.main.MainViewModel
 import com.lndmflngs.colorizer.ui.open.OpenViewModel
 import com.lndmflngs.colorizer.ui.result.ResultViewModel
+import javax.inject.Inject
 import javax.inject.Singleton
 
 @Suppress("UNCHECKED_CAST")

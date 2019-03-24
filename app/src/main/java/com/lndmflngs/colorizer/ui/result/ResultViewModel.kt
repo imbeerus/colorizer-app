@@ -2,6 +2,7 @@ package com.lndmflngs.colorizer.ui.result
 
 import android.widget.ImageView
 import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableField
 import com.lndmflngs.colorizer.data.DataManager
 import com.lndmflngs.colorizer.extensions.disposableSingleObserver
 import com.lndmflngs.colorizer.extensions.subscribeOnApp
@@ -9,10 +10,8 @@ import com.lndmflngs.colorizer.ui.base.BaseViewModel
 
 class ResultViewModel(dataManager: DataManager) : BaseViewModel<ResultNavigator>(dataManager) {
 
+  var imageSource: ObservableField<String> = ObservableField()
   val isMenuActionsEnabled = ObservableBoolean()
-
-  lateinit var imageView: ImageView
-  lateinit var resultImageSource: String
 
   fun sendImageToColorize(byteArray: ByteArray) {
     setIsLoading(true)
@@ -21,9 +20,7 @@ class ResultViewModel(dataManager: DataManager) : BaseViewModel<ResultNavigator>
       dataManager.colorizeImageRequest(byteArray)
         .subscribeOnApp()
         .subscribeWith(disposableSingleObserver(
-          onSuccess = {
-            fetchResult(it.output)
-          },
+          onSuccess = { fetchResult(it.output) },
           onError = {
             setIsLoading(false)
             navigator?.handleError(it)
@@ -40,7 +37,7 @@ class ResultViewModel(dataManager: DataManager) : BaseViewModel<ResultNavigator>
           onSuccess = {
             setIsLoading(false)
             isMenuActionsEnabled.set(true)
-            resultImageSource = it
+            imageSource.set(it)
             navigator?.showResult()
           },
           onError = {
@@ -51,7 +48,7 @@ class ResultViewModel(dataManager: DataManager) : BaseViewModel<ResultNavigator>
     )
   }
 
-  fun shareImage() {
+  fun shareImage(imageView: ImageView) {
     val bmpUri = dataManager.getImageBitmapUri(imageView)
     navigator?.startShareImage(bmpUri!!)
   }

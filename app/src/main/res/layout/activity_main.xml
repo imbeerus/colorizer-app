@@ -20,9 +20,9 @@
       >
 
     <include
+        layout="@layout/include_toolbar"
         android:id="@+id/appbar"
         bind:title="@{viewModel.title}"
-        layout="@layout/include_toolbar"
         />
 
     <FrameLayout

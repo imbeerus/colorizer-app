@@ -5,6 +5,7 @@
 
   <data>
     <import type="android.view.View"/>
+    <import type="android.widget.ImageView"/>
     <variable
         name="viewModel"
         type="com.lndmflngs.colorizer.ui.result.ResultViewModel"
@@ -24,6 +25,7 @@
         android:layout_gravity="center"
         android:contentDescription="@string/description_result"
         android:visibility="@{viewModel.isLoading ? View.GONE : View.VISIBLE}"
+        app:imageUrl="@{viewModel.imageSource}"
         />
 
     <ProgressBar
@@ -41,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="@dimen/fab_margin"
-        android:onClick="@{() -> viewModel.shareImage()}"
+        android:onClick="@{(ImageView) -> viewModel.shareImage(resultImageView)}"
         android:visibility="@{viewModel.isLoading ? View.GONE : View.VISIBLE}"
         app:srcCompat="@drawable/ic_share"
         />

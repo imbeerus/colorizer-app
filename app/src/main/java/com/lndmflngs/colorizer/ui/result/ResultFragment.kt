@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.library.baseAdapters.BR
 import com.lndmflngs.colorizer.R
@@ -18,7 +17,6 @@ import com.lndmflngs.colorizer.extensions.lockOrientation
 import com.lndmflngs.colorizer.extensions.startPickImage
 import com.lndmflngs.colorizer.extensions.unlockOrientation
 import com.lndmflngs.colorizer.ui.base.BaseFragment
-import kotlinx.android.synthetic.main.fragment_result.view.resultImageView
 import javax.inject.Inject
 
 class ResultFragment : BaseFragment<FragmentResultBinding, ResultViewModel>(), ResultNavigator {
@@ -35,8 +33,6 @@ class ResultFragment : BaseFragment<FragmentResultBinding, ResultViewModel>(), R
 
   private val menuItems = arrayOf(R.id.change, R.id.share)
 
-  private lateinit var imageView: ImageView
-
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     viewModel.navigator = this
@@ -44,13 +40,9 @@ class ResultFragment : BaseFragment<FragmentResultBinding, ResultViewModel>(), R
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-    viewDataBinding.root.resultImageView.apply {
-      imageView = this
-      viewModel.imageView = this
-    }
     (activity as AppCompatActivity).lockOrientation()
     if (savedInstanceState != null) {
-      viewModel.resultImageSource = savedInstanceState.getString(BUNDLE_RESULT_IMG_SOURCE)!!
+      viewModel.imageSource.set(savedInstanceState.getString(BUNDLE_RESULT_IMG_SOURCE)!!)
       showResult()
     } else {
       val byteArray = arguments?.getByteArray(ARGUMENT_PICKED_IMG)!!
@@ -59,7 +51,7 @@ class ResultFragment : BaseFragment<FragmentResultBinding, ResultViewModel>(), R
   }
 
   override fun onSaveInstanceState(outState: Bundle) {
-    outState.putString(BUNDLE_RESULT_IMG_SOURCE, viewModel.resultImageSource)
+    outState.putString(BUNDLE_RESULT_IMG_SOURCE, viewModel.imageSource.get())
     super.onSaveInstanceState(outState)
   }
 
@@ -75,7 +67,7 @@ class ResultFragment : BaseFragment<FragmentResultBinding, ResultViewModel>(), R
         true
       }
       R.id.share -> {
-        viewModel.shareImage()
+        viewModel.shareImage(viewDataBinding.resultImageView)
         true
       }
       else -> super.onOptionsItemSelected(item)
@@ -97,7 +89,6 @@ class ResultFragment : BaseFragment<FragmentResultBinding, ResultViewModel>(), R
   override fun showResult() {
     (activity as AppCompatActivity).unlockOrientation()
     activity?.invalidateOptionsMenu() // update menu states
-    viewModel.dataManager.loadImage(viewModel.resultImageSource, imageView)
   }
 
   override fun handleError(throwable: Throwable) {

@@ -40,8 +40,8 @@ ext {
   vectorDrawableVersion = '1.1.0-alpha01'
 
   dagger2Version = '2.16'
-  rxJavaVersion  = '2.2.7'
-  rxAndroidVersion  = '2.1.1'
+  rxJavaVersion = '2.2.7'
+  rxAndroidVersion = '2.1.1'
   archLifecycleVersion = '2.1.0-alpha03'
   algorithmiaVersion = '1.0.1'
   glideVersion = '4.9.0'

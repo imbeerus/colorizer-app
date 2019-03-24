@@ -38,10 +38,6 @@ constructor(
     return glideLoader.handleImageBitmap(futureTarget)
   }
 
-  override fun loadImage(source: String, imageView: ImageView) {
-    return glideLoader.loadImage(source, imageView)
-  }
-
   override fun loadImageAsync(
     futureTarget: FutureTarget<Bitmap>,
     onSuccess: (Bitmap) -> Unit

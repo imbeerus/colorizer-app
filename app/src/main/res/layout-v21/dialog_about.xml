@@ -7,7 +7,8 @@
 
     <variable
         name="viewModel"
-        type="com.lndmflngs.colorizer.ui.about.AboutViewModel" />
+        type="com.lndmflngs.colorizer.ui.about.AboutViewModel"
+        />
   </data>
 
   <LinearLayout

@@ -2,9 +2,7 @@ package com.lndmflngs.colorizer.extensions
 
 import android.content.Intent
 import android.net.Uri
-import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.lndmflngs.colorizer.R
@@ -31,22 +29,8 @@ fun AppCompatActivity.openBrowser(link: String) {
   startActivity(browserIntent)
 }
 
-fun AppCompatActivity.shareResultImgFile(uri: Uri) {
-  val shareIntent = Intent(Intent.ACTION_SEND).apply {
-    putExtra(Intent.EXTRA_STREAM, uri)
-    type = "image/*"
-  }
-  startActivity(Intent.createChooser(shareIntent, getString(R.string.title_share_via)))
-}
-
 inline fun FragmentManager.transact(action: FragmentTransaction.() -> Unit) {
   beginTransaction().apply {
     action()
   }.commit()
-}
-
-inline fun FragmentManager.transactNow(action: FragmentTransaction.() -> Unit) {
-  beginTransaction().apply {
-    action()
-  }.commitNow()
 }

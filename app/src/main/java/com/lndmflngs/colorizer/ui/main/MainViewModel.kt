@@ -13,7 +13,7 @@ class MainViewModel(dataManager: DataManager) : BaseViewModel<MainNavigator>(dat
   val title = ObservableField<String>()
 
   lateinit var imageToColorize: ByteArray
-  private set
+    private set
 
   fun handleImageSend(intent: Intent) {
     val uri: Uri? = (intent.getParcelableExtra<Parcelable>(Intent.EXTRA_STREAM) as? Uri)
