@@ -1,7 +1,5 @@
 package com.lndmflngs.colorizer.ui.about
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -27,6 +25,8 @@ class AboutDialog : BaseDialog<DialogAboutBinding, AboutViewModel>(), AboutCallb
   override val layoutId: Int = R.layout.dialog_about
   override val viewModel: AboutViewModel by lazy { getViewModel<AboutViewModel>(factory) }
 
+  override val fragmentTag: String = "AboutDialog"
+
   override fun onCreateView(
     inflater: LayoutInflater,
     container: ViewGroup?,
@@ -41,23 +41,15 @@ class AboutDialog : BaseDialog<DialogAboutBinding, AboutViewModel>(), AboutCallb
     return viewDataBinding.root
   }
 
-  override fun openRepo() {
-    val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(AboutViewModel.REPO_URL))
-    startActivity(browserIntent)
-  }
-
   override fun dismissDialog() {
-    dismissDialog(TAG)
+    dismissDialog(fragmentTag)
   }
 
   fun show(fragmentManager: FragmentManager) {
-    super.show(fragmentManager, TAG)
+    super.show(fragmentManager, fragmentTag)
   }
 
   companion object {
-
-    private val TAG = AboutDialog::class.java.simpleName
-
     fun newInstance(): AboutDialog {
       return AboutDialog()
     }

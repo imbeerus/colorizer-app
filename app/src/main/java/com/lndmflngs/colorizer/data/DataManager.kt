@@ -8,7 +8,6 @@ import com.lndmflngs.colorizer.data.local.ImageManagerHelper
 import com.lndmflngs.colorizer.data.model.api.ImageResponse
 import com.lndmflngs.colorizer.data.remote.ApiClientHelper
 import io.reactivex.Single
-import io.reactivex.SingleObserver
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -30,19 +29,16 @@ constructor(
     return apiClient.fetchResultImagePath(output)
   }
 
+  override fun clearFutureTarget(futureTarget: FutureTarget<Bitmap>) {
+    glideLoader.clearFutureTarget(futureTarget)
+  }
+
   override fun makeFutureTarget(uri: Uri): FutureTarget<Bitmap> {
     return glideLoader.makeFutureTarget(uri)
   }
 
   override fun handleImageBitmap(futureTarget: FutureTarget<Bitmap>): Single<Bitmap> {
     return glideLoader.handleImageBitmap(futureTarget)
-  }
-
-  override fun loadImageAsync(
-    futureTarget: FutureTarget<Bitmap>,
-    onSuccess: (Bitmap) -> Unit
-  ): SingleObserver<Bitmap> {
-    return glideLoader.loadImageAsync(futureTarget, onSuccess)
   }
 
   override fun bitmapToByteArray(bitmap: Bitmap): ByteArray {

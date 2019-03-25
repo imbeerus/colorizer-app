@@ -8,4 +8,5 @@ data class ImageResponse(val output: String) {
     fun convertFromJson(jsonObject: JSONObject): ImageResponse =
       ImageResponse(jsonObject.getString("output"))
   }
+
 }

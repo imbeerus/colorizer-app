@@ -2,6 +2,7 @@ package com.lndmflngs.colorizer.ui.base
 
 import android.app.Dialog
 import android.content.Context
+import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -28,6 +29,8 @@ abstract class BaseDialog<T : ViewDataBinding, V : BaseViewModel<*>> : DialogFra
 
   abstract val viewModel: V
 
+  abstract val fragmentTag: String
+
   override fun onAttach(context: Context) {
     super.onAttach(context)
     if (context is BaseActivity<*, *>) {
@@ -52,8 +55,12 @@ abstract class BaseDialog<T : ViewDataBinding, V : BaseViewModel<*>> : DialogFra
       it.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
       it.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
     }
-    dialog.setCanceledOnTouchOutside(false)
+    dialog.setCanceledOnTouchOutside(true)
     return dialog
+  }
+
+  override fun onCancel(dialog: DialogInterface) {
+    dismissDialog(fragmentTag)
   }
 
   override fun onDetach() {
