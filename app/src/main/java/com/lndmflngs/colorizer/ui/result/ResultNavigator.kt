@@ -4,8 +4,6 @@ import android.net.Uri
 
 interface ResultNavigator {
 
-  fun startPickImage()
-
   fun startShareImage(uri: Uri)
 
   fun showResult()

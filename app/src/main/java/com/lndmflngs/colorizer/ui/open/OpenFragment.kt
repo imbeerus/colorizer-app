@@ -39,4 +39,5 @@ class OpenFragment : BaseFragment<FragmentOpenBinding, OpenViewModel>(), OpenNav
       return OpenFragment()
     }
   }
+
 }

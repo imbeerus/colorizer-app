@@ -8,7 +8,7 @@ class AboutViewModel(dataManager: DataManager) : BaseViewModel<AboutCallback>(da
 
   val appVersion: ObservableField<String> = ObservableField()
 
-  fun openRepoInBrowser(){
+  fun openRepoInBrowser() {
     navigator?.openRepo()
   }
 

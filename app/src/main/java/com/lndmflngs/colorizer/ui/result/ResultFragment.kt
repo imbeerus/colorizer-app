@@ -63,7 +63,7 @@ class ResultFragment : BaseFragment<FragmentResultBinding, ResultViewModel>(), R
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
     return when (item.itemId) {
       R.id.change -> {
-        startPickImage()
+        (activity as AppCompatActivity).startPickImage()
         true
       }
       R.id.share -> {
@@ -72,10 +72,6 @@ class ResultFragment : BaseFragment<FragmentResultBinding, ResultViewModel>(), R
       }
       else -> super.onOptionsItemSelected(item)
     }
-  }
-
-  override fun startPickImage() {
-    (activity as AppCompatActivity).startPickImage()
   }
 
   override fun startShareImage(uri: Uri) {

@@ -8,7 +8,6 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import javax.inject.Inject
 
-// TODO: upload new screenshots
 class ColorizerApp : Application(), HasActivityInjector {
 
   @Inject
