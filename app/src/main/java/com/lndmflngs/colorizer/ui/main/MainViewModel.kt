@@ -16,7 +16,7 @@ class MainViewModel(dataManager: DataManager) : BaseViewModel<MainNavigator>(dat
     private set
 
   fun handleImageSend(intent: Intent) {
-    val uri: Uri? = (intent.getParcelableExtra<Parcelable>(Intent.EXTRA_STREAM) as? Uri)
+    val uri: Uri? = (intent.getParcelableExtra<Parcelable>(Intent.EXTRA_STREAM) as? Uri) //TODO: handle image
 //    GlideUtils.loadImageAsync(this, uri) {
 //    handleImage(it)
 // }

@@ -10,7 +10,7 @@ import com.lndmflngs.colorizer.ui.base.BaseViewModel
 
 class ResultViewModel(dataManager: DataManager) : BaseViewModel<ResultNavigator>(dataManager) {
 
-  var imageSource: ObservableField<String> = ObservableField()
+  val imageSource: ObservableField<String> = ObservableField()
   val isMenuActionsEnabled = ObservableBoolean()
 
   fun sendImageToColorize(byteArray: ByteArray) {

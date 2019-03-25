@@ -5,7 +5,6 @@
 
   <data>
     <import type="android.view.View"/>
-    <import type="android.widget.ImageView"/>
     <variable
         name="viewModel"
         type="com.lndmflngs.colorizer.ui.result.ResultViewModel"

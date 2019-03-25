@@ -12,6 +12,7 @@ import com.lndmflngs.colorizer.R
 import com.lndmflngs.colorizer.ViewModelProviderFactory
 import com.lndmflngs.colorizer.databinding.ActivityMainBinding
 import com.lndmflngs.colorizer.extensions.getViewModel
+import com.lndmflngs.colorizer.ui.about.AboutDialog
 import com.lndmflngs.colorizer.ui.base.BaseActivity
 import com.lndmflngs.colorizer.ui.open.OpenFragment
 import com.lndmflngs.colorizer.ui.result.ResultFragment
@@ -44,7 +45,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(),
     setupLayout()
     handleIntent {
       if (savedInstanceState == null) {
-        showOpenFragment()
+        replaceFragment(OpenFragment.newInstance(), OpenFragment.TAG)
       }
     }
   }
@@ -57,7 +58,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(),
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
     return when (item.itemId) {
       R.id.about_app -> {
-        showAboutDialog()
+        AboutDialog.newInstance().show(supportFragmentManager)
         true
       }
       else -> super.onOptionsItemSelected(item)
@@ -81,14 +82,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(),
       }
       else -> homeScreenStart()
     }
-  }
-
-  override fun showAboutDialog() {
-    // TODO: about
-  }
-
-  override fun showOpenFragment() {
-    replaceFragment(OpenFragment.newInstance(), OpenFragment.TAG)
   }
 
   override fun showResultFragment() {

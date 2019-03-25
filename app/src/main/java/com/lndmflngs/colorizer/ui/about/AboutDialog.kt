@@ -1,5 +1,7 @@
 package com.lndmflngs.colorizer.ui.about
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +9,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.library.baseAdapters.BR
 import androidx.fragment.app.FragmentManager
+import com.lndmflngs.colorizer.BuildConfig
 import com.lndmflngs.colorizer.R
 import com.lndmflngs.colorizer.ViewModelProviderFactory
 import com.lndmflngs.colorizer.databinding.DialogAboutBinding
@@ -16,6 +19,7 @@ import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
 class AboutDialog : BaseDialog<DialogAboutBinding, AboutViewModel>(), AboutCallback {
+
   @Inject
   lateinit var factory: ViewModelProviderFactory
 
@@ -33,7 +37,13 @@ class AboutDialog : BaseDialog<DialogAboutBinding, AboutViewModel>(), AboutCallb
     AndroidSupportInjection.inject(this) // performDependencyInjection
     viewDataBinding.viewModel = viewModel
     viewModel.navigator = this
-    return viewDataBinding.root // TODO: change order if didn't work properly
+    viewModel.appVersion.set("${getString(R.string.title_version)} ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})")
+    return viewDataBinding.root
+  }
+
+  override fun openRepo() {
+    val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(AboutViewModel.REPO_URL))
+    startActivity(browserIntent)
   }
 
   override fun dismissDialog() {
@@ -49,7 +59,6 @@ class AboutDialog : BaseDialog<DialogAboutBinding, AboutViewModel>(), AboutCallb
     private val TAG = AboutDialog::class.java.simpleName
 
     fun newInstance(): AboutDialog {
-      //  fragment.arguments = Bundle() // is really need here?
       return AboutDialog()
     }
   }

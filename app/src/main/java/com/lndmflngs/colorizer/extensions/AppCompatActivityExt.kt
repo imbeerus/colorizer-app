@@ -19,16 +19,6 @@ fun AppCompatActivity.startPickImage() {
   startActivityForResult(Intent.createChooser(pickPhoto, str), MainActivity.REQUEST_TAKE_IMAGE)
 }
 
-fun AppCompatActivity.openBrowser(link: String) {
-  val url = if (!link.startsWith("http://") && !link.startsWith("https://")) {
-    "http://$link"
-  } else {
-    link
-  }
-  val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-  startActivity(browserIntent)
-}
-
 inline fun FragmentManager.transact(action: FragmentTransaction.() -> Unit) {
   beginTransaction().apply {
     action()
