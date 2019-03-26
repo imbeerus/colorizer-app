@@ -4,7 +4,7 @@
 [![License](https://img.shields.io/badge/license-Apache%202-red.svg?style=flat)](https://www.apache.org/licenses/LICENSE-2.0)
 [![Download](https://img.shields.io/badge/Download-v.0.2.2-blue.svg)][1]
 
-<img src="https://github.com/lndmflngs/colorizer-app/blob/master/graphic/2.png?raw=true" width="45%" />
+<img src="https://github.com/lndmflngs/colorizer-app/blob/master/graphic/1.jpg?raw=true" width="45%" />
 
 ## What?
 The app use the Colorful Image Colorization algorithm that takes in a black & white photos and returns the colorized version of it. The algorithm uses deep learning to classify objects/regions within the image and color them accordingly
