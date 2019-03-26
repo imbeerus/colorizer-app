@@ -14,10 +14,11 @@ import com.lndmflngs.colorizer.R
 import com.lndmflngs.colorizer.di.ImageDefCompressFormat
 import com.lndmflngs.colorizer.di.ImageDefFormat
 import com.lndmflngs.colorizer.di.ImageDefQuality
+import com.lndmflngs.colorizer.extensions.toast
+import io.reactivex.Single
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
-import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -27,7 +28,8 @@ interface ImageManagerHelper {
 
   fun getMediaBitmap(uri: Uri): Bitmap
 
-  fun getImageBitmapUri(imageView: ImageView): Uri?
+  fun getImageBitmapUri(imageView: ImageView): Single<Uri>
+
 }
 
 @Singleton
@@ -49,37 +51,47 @@ constructor(
     return MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
   }
 
-  override fun getImageBitmapUri(imageView: ImageView): Uri? {
+  override fun getImageBitmapUri(imageView: ImageView): Single<Uri> {
+    return Single.create {
+      try {
+        val bmp = extractBitmap(imageView)
+        // Store image to public external storage directory
+        val file =
+          File(
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+            "${System.currentTimeMillis()}.$defFormat"
+          )
+        writeBitmap(bmp, file)
+
+        val uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+          FileProvider.getUriForFile(
+            context,
+            context.getString(R.string.file_provider_authority),
+            file
+          )
+        } else {
+          Uri.fromFile(file)
+        }
+        it.onSuccess(uri)
+      } catch (e: Exception) {
+        it.onError(e)
+      }
+    }
+  }
+
+  private fun extractBitmap(imageView: ImageView): Bitmap? {
     // Extract Bitmap from ImageView drawable
-    val drawable = imageView.drawable
-    val bmp = if (drawable is BitmapDrawable) {
+    return if (imageView.drawable is BitmapDrawable) {
       (imageView.drawable as BitmapDrawable).bitmap
     } else {
       null
     }
-    // Store image to default external storage directory
-    try {
-      val file =
-        File(
-          context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
-          "${System.currentTimeMillis()}.$defFormat"
-        )
-      val out = FileOutputStream(file)
-      bmp!!.compress(defCompressFormat, quality, out)
-      out.close()
-      return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        FileProvider.getUriForFile(
-          context,
-          context.getString(R.string.file_provider_authority),
-          file
-        )
-      } else {
-        Uri.fromFile(file)
-      }
-    } catch (e: IOException) {
-      e.printStackTrace()
-    }
-    return null
+  }
+
+  private fun writeBitmap(bitmap: Bitmap?, file: File) {
+    val out = FileOutputStream(file)
+    bitmap!!.compress(defCompressFormat, quality, out)
+    out.close()
   }
 
 }

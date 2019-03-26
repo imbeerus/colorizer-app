@@ -49,8 +49,14 @@ class ResultViewModel(dataManager: DataManager) : BaseViewModel<ResultNavigator>
   }
 
   fun shareImage(imageView: ImageView) {
-    val bmpUri = dataManager.getImageBitmapUri(imageView)
-    navigator?.startShareImage(bmpUri!!)
+    compositeDisposable.add(
+      dataManager.getImageBitmapUri(imageView)
+        .subscribeOnApp()
+        .subscribeWith(disposableSingleObserver(
+          onSuccess = { navigator?.startShareImage(it) },
+          onError = { navigator?.handleError(it) }
+        ))
+    )
   }
 
 }

@@ -49,7 +49,7 @@ constructor(
     return imageManager.getMediaBitmap(uri)
   }
 
-  override fun getImageBitmapUri(imageView: ImageView): Uri? {
+  override fun getImageBitmapUri(imageView: ImageView): Single<Uri> {
     return imageManager.getImageBitmapUri(imageView)
   }
 
