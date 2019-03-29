@@ -2,7 +2,7 @@
 
 [![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=16)
 [![License](https://img.shields.io/badge/license-Apache%202-red.svg?style=flat)](https://www.apache.org/licenses/LICENSE-2.0)
-[![Download](https://img.shields.io/badge/Download-v.0.2.2-blue.svg)][1]
+[![Download](https://img.shields.io/badge/Download-v.0.2.22-blue.svg)][1]
 
 <img src="https://github.com/lndmflngs/colorizer-app/blob/master/graphic/1.jpg?raw=true" width="45%" />
 
