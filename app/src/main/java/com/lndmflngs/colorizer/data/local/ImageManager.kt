@@ -14,7 +14,6 @@ import com.lndmflngs.colorizer.R
 import com.lndmflngs.colorizer.di.ImageDefCompressFormat
 import com.lndmflngs.colorizer.di.ImageDefFormat
 import com.lndmflngs.colorizer.di.ImageDefQuality
-import com.lndmflngs.colorizer.extensions.toast
 import io.reactivex.Single
 import java.io.ByteArrayOutputStream
 import java.io.File

@@ -35,7 +35,7 @@ ext {
   androidXVersion = '1.1.0-alpha05'
   androidXLegacySupport = '1.0.0'
   androidXAnnotations = '1.0.1'
-  materialVersion = '1.1.0-alpha04'
+  materialVersion = '1.1.0-alpha05'
   appCompatVersion = '1.1.0-alpha03'
   vectorDrawableVersion = '1.1.0-alpha01'
 

@@ -23,11 +23,17 @@
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
-        android:textSize="@dimen/appbar_title_size"
         app:layout_scrollFlags="enterAlways|scroll"
-        app:title="@{title}"
-        app:titleTextColor="@android:color/white"
-        />
+        >
+
+      <TextView
+          android:id="@+id/titleView"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@{title}"
+          style="@style/TextAppearance.Appbar"
+          />
+    </androidx.appcompat.widget.Toolbar>
   </com.google.android.material.appbar.AppBarLayout>
 
 </layout>

@@ -17,8 +17,10 @@
     <item name="tint">@android:color/white</item>
   </style>
 
-  <style name="TextAppearance.RobotoMedium" parent="AppTheme">
+  <style name="TextAppearance.Appbar" parent="TextAppearance.AppCompat">
+    <item name="android:textSize">20sp</item>
     <item name="android:fontFamily">@font/roboto_medium</item>
+    <item name="android:textColor">@android:color/white</item>
   </style>
 
   <style name="Button" parent="Widget.AppCompat.Button">

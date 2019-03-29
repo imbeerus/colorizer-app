@@ -5,10 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.children
 import androidx.databinding.library.baseAdapters.BR
 import androidx.fragment.app.Fragment
 import com.lndmflngs.colorizer.R
@@ -98,10 +95,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(),
   private fun setupLayout() {
     viewModel.title.set(getString(R.string.app_name))
     viewDataBinding.appbar.toolbar.apply {
-      for (child in children) {
-        if (child is TextView) child.typeface =
-          ResourcesCompat.getFont(context, R.font.roboto_medium)
-      }
+      title = ""
       setSupportActionBar(this)
     }
   }
