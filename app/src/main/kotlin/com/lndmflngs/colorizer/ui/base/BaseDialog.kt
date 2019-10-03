@@ -94,7 +94,7 @@ abstract class BaseDialog<T : ViewDataBinding, V : BaseDialogViewModel<*>> : Dia
       it.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
       it.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
     }
-    dialog.setCanceledOnTouchOutside(false)
+    dialog.setCanceledOnTouchOutside(true)
     return dialog
   }
 

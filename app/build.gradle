@@ -12,7 +12,6 @@ android {
     targetSdkVersion rootProject.targetSdkVersion
     versionCode 13
     versionName "0.2.23"
-    vectorDrawables.useSupportLibrary = true
     buildConfigField("String", "API_KEY", "\"$apiKey\"")
   }
   buildTypes {

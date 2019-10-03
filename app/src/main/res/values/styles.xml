@@ -1,9 +1,13 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
-        <item name="colorAccent">@color/secondary</item>actionOverflowButtonStyle
+        <item name="colorAccent">@color/secondary</item>
+        <item name="android:colorPrimary" tools:targetApi="lollipop">@color/primary</item>
+        <item name="android:colorPrimaryDark" tools:targetApi="lollipop">@color/primary_dark</item>
+        <item name="android:colorAccent" tools:targetApi="lollipop">@color/secondary</item>
+        <item name="android:navigationBarColor" tools:targetApi="lollipop">@color/primary_dark</item>
         <item name="actionOverflowButtonStyle">@style/AppTheme.OverflowButtonStyle</item>
         <item name="android:fontFamily">@font/roboto</item>
     </style>
