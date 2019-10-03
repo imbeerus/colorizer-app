@@ -46,5 +46,5 @@ fun AppCompatActivity.startPickImage() {
     val str = getString(R.string.title_select_picture)
     // android.app.SuperNotCalledException: Activity {android/com.android.internal.app.ChooserActivity} did not call through to super.onStop()
     // just an emulator issue (http://qaru.site/questions/12400777/sharecompat-intentbuilder-crashing-every-time-on-android-4)
-    startActivityForResult(Intent.createChooser(pickPhoto, str), MainActivity.REQUEST_TAKE_IMAGE)
+    startActivityForResult(Intent.createChooser(pickPhoto, str), MainActivity.INTENT_REQUEST_TAKE_IMAGE)
 }

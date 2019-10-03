@@ -4,10 +4,9 @@ import android.net.Uri
 
 interface ResultNavigator {
 
-  fun startShareImage(uri: Uri)
+    fun startShareImage(uri: Uri)
 
-  fun showResult()
+    fun showResult()
 
-  fun handleError(throwable: Throwable)
-
+    fun handleError(throwable: Throwable)
 }

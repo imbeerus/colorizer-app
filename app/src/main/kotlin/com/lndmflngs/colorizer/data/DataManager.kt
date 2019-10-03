@@ -53,4 +53,8 @@ constructor(
     return imageManager.getImageBitmapUri(imageView)
   }
 
+  override fun encodedImage(byteArray: ByteArray): String {
+    return imageManager.encodedImage(byteArray)
+  }
+
 }

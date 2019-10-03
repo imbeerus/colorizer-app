@@ -19,6 +19,7 @@ import com.lndmflngs.colorizer.extensions.lockOrientation
 import com.lndmflngs.colorizer.extensions.startPickImage
 import com.lndmflngs.colorizer.extensions.unlockOrientation
 import com.lndmflngs.colorizer.ui.base.BaseFragment
+import com.lndmflngs.colorizer.ui.main.MainActivity
 import javax.inject.Inject
 
 class ResultFragment : BaseFragment<FragmentResultBinding, ResultViewModel>(), ResultNavigator {

@@ -12,4 +12,5 @@
   <string name="action_open">Открыть</string>
   <string name="action_about">О нас</string>
   <string name="action_open_source">Исходный код</string>
+    <string name="permission_received">Разрешение успешно получено</string>
 </resources>

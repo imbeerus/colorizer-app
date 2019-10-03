@@ -3,7 +3,6 @@ package com.lndmflngs.colorizer.data.remote
 import com.algorithmia.AlgorithmiaClient
 import com.algorithmia.algo.Algorithm
 import com.lndmflngs.colorizer.data.model.api.ImageResponse
-import com.lndmflngs.colorizer.di.ApiKey
 import com.lndmflngs.colorizer.di.ImageDefFormat
 import io.reactivex.Single
 import org.json.JSONObject
@@ -22,7 +21,6 @@ class ApiClient @Inject
 constructor(
   private val algoClient: AlgorithmiaClient,
   private val colorizerAlgorithm: Algorithm,
-  @ApiKey private val apiKey: String,
   @ImageDefFormat private val defFormat: String
 ) : ApiClientHelper {
 

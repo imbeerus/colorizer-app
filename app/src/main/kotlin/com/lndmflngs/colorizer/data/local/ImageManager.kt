@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Base64
 import android.widget.ImageView
 import androidx.core.content.FileProvider
 import com.lndmflngs.colorizer.R
@@ -23,74 +24,80 @@ import javax.inject.Singleton
 
 interface ImageManagerHelper {
 
-  fun bitmapToByteArray(bitmap: Bitmap): ByteArray
+    fun bitmapToByteArray(bitmap: Bitmap): ByteArray
 
-  fun getMediaBitmap(uri: Uri): Bitmap
+    fun encodedImage(byteArray: ByteArray): String
 
-  fun getImageBitmapUri(imageView: ImageView): Single<Uri>
+    fun getMediaBitmap(uri: Uri): Bitmap
+
+    fun getImageBitmapUri(imageView: ImageView): Single<Uri>
 
 }
 
 @Singleton
 class ImageManager @Inject
 constructor(
-  private val context: Context,
-  @ImageDefFormat private val defFormat: String,
-  @ImageDefCompressFormat private val defCompressFormat: CompressFormat,
-  @ImageDefQuality private val quality: Int
+    private val context: Context,
+    @ImageDefFormat private val defFormat: String,
+    @ImageDefCompressFormat private val defCompressFormat: CompressFormat,
+    @ImageDefQuality private val quality: Int
 ) : ImageManagerHelper {
 
-  override fun bitmapToByteArray(bitmap: Bitmap): ByteArray {
-    val byteArrayOutputStream = ByteArrayOutputStream()
-    bitmap.compress(defCompressFormat, quality, byteArrayOutputStream)
-    return byteArrayOutputStream.toByteArray()
-  }
+    override fun encodedImage(byteArray: ByteArray): String {
+        return Base64.encodeToString(byteArray, Base64.DEFAULT)
+    }
 
-  override fun getMediaBitmap(uri: Uri): Bitmap {
-    return MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
-  }
+    override fun bitmapToByteArray(bitmap: Bitmap): ByteArray {
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        bitmap.compress(defCompressFormat, quality, byteArrayOutputStream)
+        return byteArrayOutputStream.toByteArray()
+    }
 
-  override fun getImageBitmapUri(imageView: ImageView): Single<Uri> {
-    return Single.create {
-      try {
-        val bmp = extractBitmap(imageView)
-        // Store image to public external storage directory
-        val file =
-          File(
-            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-            "${System.currentTimeMillis()}.$defFormat"
-          )
-        writeBitmap(bmp, file)
+    override fun getMediaBitmap(uri: Uri): Bitmap {
+        return MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
+    }
 
-        val uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-          FileProvider.getUriForFile(
-            context,
-            context.getString(R.string.file_provider_authority),
-            file
-          )
-        } else {
-          Uri.fromFile(file)
+    override fun getImageBitmapUri(imageView: ImageView): Single<Uri> {
+        return Single.create {
+            try {
+                val bmp = extractBitmap(imageView)
+                // Store image to public external storage directory
+                val file =
+                    File(
+                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+                        "${System.currentTimeMillis()}.$defFormat"
+                    )
+                writeBitmap(bmp, file)
+
+                val uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    FileProvider.getUriForFile(
+                        context,
+                        context.getString(R.string.file_provider_authority),
+                        file
+                    )
+                } else {
+                    Uri.fromFile(file)
+                }
+                it.onSuccess(uri)
+            } catch (e: Exception) {
+                it.onError(e)
+            }
         }
-        it.onSuccess(uri)
-      } catch (e: Exception) {
-        it.onError(e)
-      }
     }
-  }
 
-  private fun extractBitmap(imageView: ImageView): Bitmap? {
-    // Extract Bitmap from ImageView drawable
-    return if (imageView.drawable is BitmapDrawable) {
-      (imageView.drawable as BitmapDrawable).bitmap
-    } else {
-      null
+    private fun extractBitmap(imageView: ImageView): Bitmap? {
+        // Extract Bitmap from ImageView drawable
+        return if (imageView.drawable is BitmapDrawable) {
+            (imageView.drawable as BitmapDrawable).bitmap
+        } else {
+            null
+        }
     }
-  }
 
-  private fun writeBitmap(bitmap: Bitmap?, file: File) {
-    val out = FileOutputStream(file)
-    bitmap!!.compress(defCompressFormat, quality, out)
-    out.close()
-  }
+    private fun writeBitmap(bitmap: Bitmap?, file: File) {
+        val out = FileOutputStream(file)
+        bitmap!!.compress(defCompressFormat, quality, out)
+        out.close()
+    }
 
 }

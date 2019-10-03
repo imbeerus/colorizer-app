@@ -1,11 +1,13 @@
 package com.lndmflngs.colorizer.ui.main
 
-interface MainNavigator {
-  
-  fun handleImageIntent(defaultStart: () -> Unit)
+interface MainNavigator  {
 
-  fun showResultFragment()
+    fun handleImageIntent(defaultStart: () -> Unit)
 
-  fun handleError(throwable: Throwable)
+    fun checkWritePermission()
+
+    fun showResultFragment()
+
+    fun handleError(throwable: Throwable)
 
 }

@@ -1,19 +1,20 @@
 <resources>
-  <string name="app_name" translatable="false">Сolorizer</string>
-  <string name="app_about" translatable="false">Сolorizer (by lndmflngs)</string>
-  <string name="msg_open_photo">Tap anywhere to open a photo</string>
-  <string name="msg_warning">This will take a some time to due algorithm initialization</string>
-  <string name="msg_description">Colorizes given black and white images</string>
+    <string name="app_name" translatable="false">Сolorizer</string>
+    <string name="app_about" translatable="false">Сolorizer (by lndmflngs)</string>
+    <string name="msg_open_photo">Tap anywhere to open a photo</string>
+    <string name="msg_warning">This will take a some time to due algorithm initialization</string>
+    <string name="msg_description">Colorizes given black and white images</string>
 
-  <string name="action_open">Open</string>
-  <string name="action_share">Share</string>
-  <string name="action_about">About app</string>
-  <string name="action_open_source">Open source</string>
-  <string name="title_select_picture">Select picture</string>
-  <string name="title_share_via">Share via</string>
-  <string name="title_version">Version</string>
-  <string name="description_open">Open photo icon</string>
-  <string name="description_result">Colored image</string>
+    <string name="action_open">Open</string>
+    <string name="action_share">Share</string>
+    <string name="action_about">About app</string>
+    <string name="action_open_source">Open source</string>
+    <string name="title_select_picture">Select picture</string>
+    <string name="title_share_via">Share via</string>
+    <string name="title_version">Version</string>
+    <string name="description_open">Open photo icon</string>
+    <string name="description_result">Colored image</string>
 
-  <string name="file_provider_authority" translatable="false">com.lndmflngs.colorizer.fileprovider</string>
+    <string name="file_provider_authority" translatable="false">com.lndmflngs.colorizer.fileprovider</string>
+    <string name="permission_received">Permission received</string>
 </resources>

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Parcelable
+import android.util.Log
 import androidx.databinding.ObservableField
 import com.lndmflngs.colorizer.data.DataManager
 import com.lndmflngs.colorizer.extensions.disposableSingleObserver
@@ -14,8 +15,7 @@ class MainViewModel(dataManager: DataManager) : BaseViewModel<MainNavigator>(dat
 
   val title = ObservableField<String>()
 
-  lateinit var imageToColorize: ByteArray
-    private set
+  var imageToColorize: ObservableField<ByteArray> = ObservableField()
 
   fun handleImageSend(intent: Intent) {
     val uri: Uri? = (intent.getParcelableExtra<Parcelable>(Intent.EXTRA_STREAM) as? Uri)
@@ -38,7 +38,8 @@ class MainViewModel(dataManager: DataManager) : BaseViewModel<MainNavigator>(dat
   }
 
   fun handleImage(bitmap: Bitmap) {
-    imageToColorize = dataManager.bitmapToByteArray(bitmap)
+    imageToColorize.set(dataManager.bitmapToByteArray(bitmap))
+    Log.d("TEST","_${imageToColorize.get()?.let { dataManager.encodedImage(it) }}")
     navigator?.showResultFragment()
   }
 
