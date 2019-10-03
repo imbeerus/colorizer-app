@@ -39,7 +39,6 @@ class MainViewModel(dataManager: DataManager) : BaseViewModel<MainNavigator>(dat
 
   fun handleImage(bitmap: Bitmap) {
     imageToColorize.set(dataManager.bitmapToByteArray(bitmap))
-    Log.d("TEST","_${imageToColorize.get()?.let { dataManager.encodedImage(it) }}")
     navigator?.showResultFragment()
   }
 

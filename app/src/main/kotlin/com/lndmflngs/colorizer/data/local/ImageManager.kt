@@ -26,8 +26,6 @@ interface ImageManagerHelper {
 
     fun bitmapToByteArray(bitmap: Bitmap): ByteArray
 
-    fun encodedImage(byteArray: ByteArray): String
-
     fun getMediaBitmap(uri: Uri): Bitmap
 
     fun getImageBitmapUri(imageView: ImageView): Single<Uri>
@@ -42,10 +40,6 @@ constructor(
     @ImageDefCompressFormat private val defCompressFormat: CompressFormat,
     @ImageDefQuality private val quality: Int
 ) : ImageManagerHelper {
-
-    override fun encodedImage(byteArray: ByteArray): String {
-        return Base64.encodeToString(byteArray, Base64.DEFAULT)
-    }
 
     override fun bitmapToByteArray(bitmap: Bitmap): ByteArray {
         val byteArrayOutputStream = ByteArrayOutputStream()
