@@ -7,7 +7,7 @@ buildscript {
     jcenter()
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:3.3.2'
+    classpath 'com.android.tools.build:gradle:3.5.1'
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     // NOTE: Do not place your application dependencies here; they belong
     // in the individual module build.gradle files
@@ -32,17 +32,17 @@ ext {
   compileSdkVersion = 28
 
   // App dependencies
-  androidXVersion = '1.1.0-alpha05'
+  androidXVersion = '1.2.0-alpha04'
   androidXLegacySupport = '1.0.0'
-  androidXAnnotations = '1.0.1'
-  materialVersion = '1.1.0-alpha05'
-  appCompatVersion = '1.1.0-alpha03'
-  vectorDrawableVersion = '1.1.0-alpha01'
+  androidXAnnotations = '1.1.0'
+  materialVersion = '1.1.0-alpha10'
+  appCompatVersion = '1.1.0'
+  vectorDrawableVersion = '1.1.0'
 
-  dagger2Version = '2.16'
+  dagger2Version = '2.24'
   rxJavaVersion = '2.2.7'
   rxAndroidVersion = '2.1.1'
-  archLifecycleVersion = '2.1.0-alpha03'
+  archLifecycleVersion = '2.2.0-alpha05'
   algorithmiaVersion = '1.0.1'
-  glideVersion = '4.9.0'
+  glideVersion = '4.10.0'
 }

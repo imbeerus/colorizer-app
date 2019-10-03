@@ -5,3 +5,6 @@
   **[] $VALUES;
   public *;
 }
+
+# If you're targeting any API level less than Android API 27
+-dontwarn com.bumptech.glide.load.resource.bitmap.VideoDecoder

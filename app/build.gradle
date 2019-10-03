@@ -10,8 +10,8 @@ android {
     applicationId "com.lndmflngs.colorizer"
     minSdkVersion rootProject.minSdkVersion
     targetSdkVersion rootProject.targetSdkVersion
-    versionCode 12
-    versionName "0.2.22"
+    versionCode 13
+    versionName "0.2.23"
     vectorDrawables.useSupportLibrary = true
     buildConfigField("String", "API_KEY", "\"$apiKey\"")
   }
@@ -29,12 +29,16 @@ android {
       proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
     }
   }
+  sourceSets {
+    main.java.srcDirs += 'src/main/kotlin'
+    main.res.srcDirs += 'src/main/res-public'
+  }
   dataBinding {
     enabled = true
   }
   compileOptions {
-    sourceCompatibility JavaVersion.VERSION_1_8
-    targetCompatibility JavaVersion.VERSION_1_8
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
   }
 }
 
@@ -59,7 +63,7 @@ dependencies {
   // lifecycle components
   implementation "androidx.lifecycle:lifecycle-extensions:$archLifecycleVersion"
   implementation "androidx.lifecycle:lifecycle-runtime:$archLifecycleVersion"
-  kapt "androidx.lifecycle:lifecycle-compiler:$archLifecycleVersion"
+  implementation "androidx.lifecycle:lifecycle-common-java8:$archLifecycleVersion"
 
   // algorithmia
   implementation "com.algorithmia:algorithmia-android:$algorithmiaVersion"

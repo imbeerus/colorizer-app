@@ -3,34 +3,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.main.MainActivity"
-    >
+    tools:context="com.lndmflngs.colorizer.ui.main.MainActivity">
 
-  <data>
-    <import type="android.view.View"/>
-    <variable
-        name="viewModel"
-        type="com.lndmflngs.colorizer.ui.main.MainViewModel"
-        />
-  </data>
+    <data>
 
-  <FrameLayout
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      >
+        <import type="android.view.View" />
 
-    <include
-        layout="@layout/include_toolbar"
-        android:id="@+id/appbar"
-        bind:title="@{viewModel.title}"
-        />
+        <variable
+            name="viewModel"
+            type="com.lndmflngs.colorizer.ui.main.MainViewModel" />
+    </data>
 
     <FrameLayout
-        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="?actionBarSize"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        />
-  </FrameLayout>
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/appbar"
+            layout="@layout/include_toolbar"
+            bind:title="@{viewModel.title}" />
+
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="?actionBarSize"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+    </FrameLayout>
 </layout>
