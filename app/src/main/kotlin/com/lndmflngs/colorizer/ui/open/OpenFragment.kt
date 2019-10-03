@@ -2,7 +2,7 @@ package com.lndmflngs.colorizer.ui.open
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.library.baseAdapters.BR
+import com.lndmflngs.colorizer.BR
 import com.lndmflngs.colorizer.R
 import com.lndmflngs.colorizer.ViewModelProviderFactory
 import com.lndmflngs.colorizer.databinding.FragmentOpenBinding

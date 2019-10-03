@@ -1,4 +1,4 @@
-package com.lndmflngs.colorizer.ui.about
+package com.lndmflngs.colorizer
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,17 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentManager
-import com.lndmflngs.colorizer.BuildConfig
-import com.lndmflngs.colorizer.R
-import com.lndmflngs.colorizer.ViewModelProviderFactory
 import com.lndmflngs.colorizer.databinding.DialogAboutBinding
 import com.lndmflngs.colorizer.extensions.getViewModel
+import com.lndmflngs.colorizer.ui.about.AboutCallback
+import com.lndmflngs.colorizer.ui.about.AboutViewModel
 import com.lndmflngs.colorizer.ui.base.BaseDialog
 import com.lndmflngs.colorizer.ui.base.BaseFragmentActivity
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
-class AboutDialog : BaseDialog<DialogAboutBinding, AboutViewModel>(), AboutCallback {
+class AboutDialog : BaseDialog<DialogAboutBinding, AboutViewModel>(),
+    AboutCallback {
 
     @Inject
     lateinit var factory: ViewModelProviderFactory

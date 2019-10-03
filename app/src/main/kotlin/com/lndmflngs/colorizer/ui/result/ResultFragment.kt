@@ -9,8 +9,8 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.Observer
+import com.lndmflngs.colorizer.BR
 import com.lndmflngs.colorizer.R
 import com.lndmflngs.colorizer.ViewModelProviderFactory
 import com.lndmflngs.colorizer.databinding.FragmentResultBinding

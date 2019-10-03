@@ -6,14 +6,14 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.library.baseAdapters.BR
+import com.lndmflngs.colorizer.AboutDialog
+import com.lndmflngs.colorizer.BR
 import com.lndmflngs.colorizer.R
 import com.lndmflngs.colorizer.ViewModelProviderFactory
 import com.lndmflngs.colorizer.databinding.ActivityMainBinding
 import com.lndmflngs.colorizer.extensions.getViewModel
 import com.lndmflngs.colorizer.extensions.replaceFragment
 import com.lndmflngs.colorizer.extensions.setupActionBar
-import com.lndmflngs.colorizer.ui.about.AboutDialog
 import com.lndmflngs.colorizer.ui.base.BaseFragmentActivity
 import com.lndmflngs.colorizer.ui.open.OpenFragment
 import com.lndmflngs.colorizer.ui.result.ResultFragment

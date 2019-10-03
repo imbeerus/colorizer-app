@@ -5,69 +5,76 @@ apply plugin: 'kotlin-kapt'
 apply from: '../key.gradle'
 
 android {
-  compileSdkVersion rootProject.compileSdkVersion
-  defaultConfig {
-    applicationId "com.lndmflngs.colorizer"
-    minSdkVersion rootProject.minSdkVersion
-    targetSdkVersion rootProject.targetSdkVersion
-    versionCode 13
-    versionName "0.2.23"
-    buildConfigField("String", "API_KEY", "\"$apiKey\"")
-  }
-  buildTypes {
-    debug {
-      minifyEnabled true
-      shrinkResources true
-      applicationIdSuffix '.debug'
-      versionNameSuffix '-DEBUG'
-      proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+    compileSdkVersion rootProject.compileSdkVersion
+    defaultConfig {
+        applicationId "com.lndmflngs.colorizer"
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        versionCode 13
+        versionName "0.2.23"
+        buildConfigField("String", "API_KEY", "\"$apiKey\"")
     }
-    release {
-      minifyEnabled true
-      shrinkResources true
-      proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+    buildTypes {
+        debug {
+            minifyEnabled true
+            shrinkResources true
+            applicationIdSuffix '.debug'
+            versionNameSuffix '-DEBUG'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
     }
-  }
-  sourceSets {
-    main.java.srcDirs += 'src/main/kotlin'
-    main.res.srcDirs += 'src/main/res-public'
-  }
-  dataBinding {
-    enabled = true
-  }
-  compileOptions {
-    sourceCompatibility = '1.8'
-    targetCompatibility = '1.8'
-  }
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        main.res.srcDirs += 'src/main/res-public'
+    }
+    dataBinding {
+        enabled = true
+    }
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
+}
+
+kapt {
+    generateStubs = true
 }
 
 dependencies {
-  // app dependencies
-  implementation "androidx.core:core-ktx:$androidXVersion"
-  implementation "androidx.appcompat:appcompat:$appCompatVersion"
-  implementation "androidx.vectordrawable:vectordrawable:$vectorDrawableVersion"
-  implementation "com.google.android.material:material:$materialVersion"
-  implementation "androidx.annotation:annotation:$androidXAnnotations"
+    // app dependencies
+    implementation "androidx.core:core-ktx:$androidXVersion"
+    implementation "androidx.appcompat:appcompat:$appCompatVersion"
+    implementation "androidx.vectordrawable:vectordrawable:$vectorDrawableVersion"
+    implementation "com.google.android.material:material:$materialVersion"
+    implementation "androidx.annotation:annotation:$androidXAnnotations"
 
-  // reactive
-  implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
-  implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
+    // reactive
+    implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
 
-  // dependency injection
-  implementation "com.google.dagger:dagger:$dagger2Version"
-  kapt "com.google.dagger:dagger-compiler:$dagger2Version"
-  implementation "com.google.dagger:dagger-android-support:$dagger2Version"
-  kapt "com.google.dagger:dagger-android-processor:$dagger2Version"
+    // dependency injection
+    implementation "com.google.dagger:dagger:$dagger2Version"
+    kapt "com.google.dagger:dagger-compiler:$dagger2Version"
+    implementation "com.google.dagger:dagger-android-support:$dagger2Version"
+    kapt "com.google.dagger:dagger-android-processor:$dagger2Version"
 
-  // lifecycle components
-  implementation "androidx.lifecycle:lifecycle-extensions:$archLifecycleVersion"
-  implementation "androidx.lifecycle:lifecycle-runtime:$archLifecycleVersion"
-  implementation "androidx.lifecycle:lifecycle-common-java8:$archLifecycleVersion"
+    // lifecycle components
+    implementation "androidx.lifecycle:lifecycle-extensions:$archLifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-runtime:$archLifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$archLifecycleVersion"
 
-  // algorithmia
-  implementation "com.algorithmia:algorithmia-android:$algorithmiaVersion"
+    // algorithmia
+    implementation "com.algorithmia:algorithmia-android:$algorithmiaVersion"
 
-  // glide
-  implementation "com.github.bumptech.glide:glide:$glideVersion"
-  kapt "com.github.bumptech.glide:compiler:$glideVersion"
+    // glide
+    implementation "com.github.bumptech.glide:glide:$glideVersion"
+    kapt "com.github.bumptech.glide:compiler:$glideVersion"
+
+    kapt 'androidx.databinding:databinding-compiler-common:3.5.1'
+
 }
