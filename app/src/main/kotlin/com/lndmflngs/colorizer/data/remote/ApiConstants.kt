@@ -10,7 +10,7 @@ object ApiConstants {
 
   const val IMAGE_DEF_QUALITY = 100
 
-  const val IMAGE_DEF_FORMAT = "png"
+  const val IMAGE_DEF_FORMAT = "jpg"
 
-  val IMAGE_DEF_COMPRESS_FORMAT = CompressFormat.PNG
+  val IMAGE_DEF_COMPRESS_FORMAT = CompressFormat.JPEG
 }
