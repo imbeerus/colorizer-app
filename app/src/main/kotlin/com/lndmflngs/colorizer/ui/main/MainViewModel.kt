@@ -15,8 +15,6 @@ class MainViewModel(dataManager: DataManager) : BaseViewModel<MainNavigator>(dat
 
   val title = ObservableField<String>()
 
-  var imageToColorize: ObservableField<ByteArray> = ObservableField()
-
   fun handleImageSend(intent: Intent) {
     val uri: Uri? = (intent.getParcelableExtra<Parcelable>(Intent.EXTRA_STREAM) as? Uri)
     if (uri != null) {
@@ -38,7 +36,7 @@ class MainViewModel(dataManager: DataManager) : BaseViewModel<MainNavigator>(dat
   }
 
   fun handleImage(bitmap: Bitmap) {
-    imageToColorize.set(dataManager.bitmapToByteArray(bitmap))
+    dataManager.imageToColorize = bitmap
     navigator?.showResultFragment()
   }
 

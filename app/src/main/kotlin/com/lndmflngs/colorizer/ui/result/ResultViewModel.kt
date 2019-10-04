@@ -14,7 +14,14 @@ class ResultViewModel(dataManager: DataManager) : BaseViewModel<ResultNavigator>
 
     val isMenuActionsEnabled = ObservableBoolean()
 
-    fun sendImageToColorize(byteArray: ByteArray) {
+    init {
+        dataManager.imageToColorize?.let {
+            val byteArray = dataManager.bitmapToByteArray(it)
+            sendImageToColorize(byteArray)
+        }
+    }
+
+    private fun sendImageToColorize(byteArray: ByteArray) {
         setIsLoading(true)
         isMenuActionsEnabled.set(false)
         compositeDisposable.add(
@@ -60,4 +67,8 @@ class ResultViewModel(dataManager: DataManager) : BaseViewModel<ResultNavigator>
         )
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        dataManager.imageToColorize = null
+    }
 }

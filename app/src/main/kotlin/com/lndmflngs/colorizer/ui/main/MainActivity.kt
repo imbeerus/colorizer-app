@@ -108,13 +108,7 @@ class MainActivity : BaseFragmentActivity<ActivityMainBinding, MainViewModel>(),
     }
 
     override fun showResultFragment() {
-        viewModel.imageToColorize.get()?.let { byteArray ->
-            replaceFragment(
-                containerId,
-                ResultFragment.newInstance(byteArray),
-                ResultFragment.TAG
-            )
-        }
+        replaceFragment(containerId, ResultFragment.newInstance(), ResultFragment.TAG)
     }
 
     override fun handleError(throwable: Throwable) {

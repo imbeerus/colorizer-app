@@ -19,7 +19,6 @@ import com.lndmflngs.colorizer.extensions.lockOrientation
 import com.lndmflngs.colorizer.extensions.startPickImage
 import com.lndmflngs.colorizer.extensions.unlockOrientation
 import com.lndmflngs.colorizer.ui.base.BaseFragment
-import com.lndmflngs.colorizer.ui.main.MainActivity
 import javax.inject.Inject
 
 class ResultFragment : BaseFragment<FragmentResultBinding, ResultViewModel>(), ResultNavigator {
@@ -45,22 +44,6 @@ class ResultFragment : BaseFragment<FragmentResultBinding, ResultViewModel>(), R
                 (activity as AppCompatActivity).unlockOrientation()
             }
         })
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        if (savedInstanceState != null) {
-            viewModel.imageSource.set(savedInstanceState.getString(BUNDLE_RESULT_IMG_SOURCE)!!)
-            showResult()
-        } else {
-            val byteArray = arguments?.getByteArray(ARGUMENT_PICKED_IMG)!!
-            viewModel.sendImageToColorize(byteArray)
-        }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        outState.putString(BUNDLE_RESULT_IMG_SOURCE, viewModel.imageSource.get())
-        super.onSaveInstanceState(outState)
     }
 
     override fun onCreateOptionsMenu(
@@ -109,15 +92,8 @@ class ResultFragment : BaseFragment<FragmentResultBinding, ResultViewModel>(), R
     companion object {
         const val TAG = "ResultFragment"
 
-        private const val ARGUMENT_PICKED_IMG = "ResultFragment:img"
-        private const val BUNDLE_RESULT_IMG_SOURCE = "ResultFragment:resultSrc"
-
-        fun newInstance(imgData: ByteArray): ResultFragment {
-            val fragment = ResultFragment()
-            val args = Bundle()
-            args.putByteArray(ARGUMENT_PICKED_IMG, imgData)
-            fragment.arguments = args
-            return fragment
+        fun newInstance(): ResultFragment {
+            return ResultFragment()
         }
     }
 

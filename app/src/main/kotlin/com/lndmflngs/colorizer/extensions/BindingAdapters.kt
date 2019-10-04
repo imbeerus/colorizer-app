@@ -7,12 +7,11 @@ import com.lndmflngs.colorizer.glide.GlideApp
 
 @BindingAdapter("imageUrl")
 fun ImageView.setImageUrl(url: String?) {
-    val resizeOptions = RequestOptions().override(width, height)
-    val glide = GlideApp.with(context)
-        .load(url)
-        .fitCenter()
-    if (width != 0 && height != 0) {
-        glide.apply(resizeOptions)
+    url?.let {
+        val glide = GlideApp.with(context)
+            .load(url)
+            .fitCenter()
+            .apply(RequestOptions().override(width, height))
+        glide.into(this)
     }
-    glide.into(this)
 }

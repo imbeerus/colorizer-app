@@ -23,8 +23,7 @@
         tools:targetApi="n">
 
         <activity
-            android:name="com.lndmflngs.colorizer.ui.main.MainActivity"
-            android:launchMode="singleTop">
+            android:name="com.lndmflngs.colorizer.ui.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
