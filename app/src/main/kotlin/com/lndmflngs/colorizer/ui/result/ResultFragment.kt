@@ -86,7 +86,7 @@ class ResultFragment : BaseFragment<FragmentResultBinding, ResultViewModel>(), R
     }
 
     override fun handleError(throwable: Throwable) {
-        Log.d(TAG, throwable.message)
+        Log.d(TAG, throwable.message!!)
     }
 
     companion object {

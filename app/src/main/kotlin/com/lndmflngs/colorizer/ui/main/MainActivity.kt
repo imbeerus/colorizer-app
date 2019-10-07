@@ -112,7 +112,7 @@ class MainActivity : BaseFragmentActivity<ActivityMainBinding, MainViewModel>(),
     }
 
     override fun handleError(throwable: Throwable) {
-        Log.e(TAG, throwable.message)
+        Log.e(TAG, throwable.message!!)
     }
 
     companion object {

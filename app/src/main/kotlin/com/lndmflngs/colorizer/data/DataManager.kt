@@ -58,4 +58,8 @@ constructor(
         return imageManager.getImageBitmapUri(imageView)
     }
 
+    override fun scaleBitmapToDevice(bitmap: Bitmap): ByteArray {
+        return imageManager.scaleBitmapToDevice(bitmap)
+    }
+
 }

@@ -51,7 +51,7 @@ fun Activity.lockOrientation() {
       }
     }
   } catch (e: Exception) {
-    Log.e(TAG, e.message)
+    Log.e(TAG, e.message!!)
   }
 }
 
@@ -63,6 +63,6 @@ fun Activity.unlockOrientation() {
       prevOrientation = -10
     }
   } catch (e: Exception) {
-    Log.e(TAG, e.message)
+    Log.e(TAG, e.message!!)
   }
 }

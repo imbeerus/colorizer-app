@@ -16,7 +16,7 @@ class ResultViewModel(dataManager: DataManager) : BaseViewModel<ResultNavigator>
 
     init {
         dataManager.imageToColorize?.let {
-            val byteArray = dataManager.bitmapToByteArray(it)
+            val byteArray = dataManager.scaleBitmapToDevice(it)
             sendImageToColorize(byteArray)
         }
     }

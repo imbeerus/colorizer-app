@@ -5,6 +5,7 @@ import com.algorithmia.AlgorithmiaClient
 import com.algorithmia.algo.Algorithm
 import com.lndmflngs.colorizer.data.model.api.ImageRequest
 import com.lndmflngs.colorizer.data.model.api.ImageResponse
+import com.lndmflngs.colorizer.di.ImageDefFormat
 import io.reactivex.Single
 import org.json.JSONObject
 import javax.inject.Inject
@@ -21,13 +22,14 @@ interface ApiClientHelper {
 class ApiClient @Inject
 constructor(
     private val algoClient: AlgorithmiaClient,
-    private val colorizerAlgorithm: Algorithm
-) : ApiClientHelper {
+    private val colorizerAlgorithm: Algorithm,
+    @ImageDefFormat private val defFormat: String
+    ) : ApiClientHelper {
 
     override fun colorizeImageRequest(input: ByteArray): Single<ImageResponse> {
         return Single.create {
             try {
-                val request = ImageRequest(Base64.encodeToString(input, Base64.DEFAULT))
+                val request = ImageRequest(Base64.encodeToString(input, Base64.DEFAULT), defFormat)
                 val algoResponse = colorizerAlgorithm.pipeJson(request.imageJson)
                 val imageResponse =
                     ImageResponse.convertFromJson(JSONObject(algoResponse.asJsonString()))

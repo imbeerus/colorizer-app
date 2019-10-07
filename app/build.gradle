@@ -10,10 +10,17 @@ android {
         applicationId "com.lndmflngs.colorizer"
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
-        versionCode 13
-        versionName "0.2.23"
+        versionCode 14
+        versionName "0.2.24"
         resConfigs "en", "ru"
         buildConfigField("String", "API_KEY", "\"$apiKey\"")
+    }
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
     buildTypes {
         debug {
