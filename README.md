@@ -9,9 +9,6 @@
 ## What?
 The app use the Colorful Image Colorization algorithm that takes in a black & white photos and returns the colorized version of it. The algorithm uses deep learning to classify objects/regions within the image and color them accordingly
 
-## Support
-If you want to support the the project or show your appreciation feel free to **[buy me a coffee / donate](https://www.paypal.me/kekc1304/1)**
-
 ## Issue Tracking
 Found a bug? Have an idea for an improvement? Feel free to [add an issue](../../issues)
 
